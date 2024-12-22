@@ -31,12 +31,12 @@ jobs:
     # 从保存的完整网页内容中提取并更新节点信息
     - name: Fetch and Update Nodes from Content Files
       run: |
-        # 从webpage_content.txt提取v2ray和vless节点
-        VMESS_NODES=$(grep -oP 'vmess://[^"]+' webpage_content.txt | sort -u)
-        VLESS_NODES=$(grep -oP 'vless://[^"]+' webpage_content.txt | sort -u)
+        # 提取vless、vmess节点链接并处理HTML编码
+        VMESS_NODES=$(grep -oP 'vless://[^"]+' webpage_content.txt | sort -u | sed 's/&amp;/&/g')
+        VLESS_NODES=$(grep -oP 'vless://[^"]+' webpage_content.txt | sort -u | sed 's/&amp;/&/g')
 
-        # 从ss_webpage_content.txt提取ss节点
-        SS_NODES=$(grep -oP 'ss://[^"]+' ss_webpage_content.txt | sort -u)
+        # 提取ss节点链接并处理HTML编码
+        SS_NODES=$(grep -oP 'ss://[^"]+' ss_webpage_content.txt | sort -u | sed 's/&amp;/&/g')
 
         # 保存vmess节点到dizhi1.txt
         echo "$VMESS_NODES" > dizhi1.txt
