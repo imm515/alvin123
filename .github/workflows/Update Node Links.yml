@@ -14,64 +14,80 @@ jobs:
     - name: Checkout repository
       uses: actions/checkout@v3
 
-    # 获取 v2ray 和 vless 节点链接并更新 dizhi1.txt
-    - name: Fetch and Update v2ray and vless Nodes
+    # 从本地文件分析 vmess 和 vless 节点
+    - name: Fetch and Update v2ray and vless Nodes from Local File
       run: |
-        # 安装依赖
-        sudo apt-get update
-        sudo apt-get install -y curl jq
+        # 检查文件是否存在
+        if [ ! -f "webpage_content.txt" ]; then
+          echo "webpage_content.txt 文件不存在！"
+          exit 1
+        fi
 
-        # 从v2ray免费账号网页抓取数据
-        VMESS_URL="https://github.com/Alvin9999/new-pac/wiki/v2ray%E5%85%8D%E8%B4%B9%E8%B4%A6%E5%8F%B7"
-        VLESS_URL="https://github.com/Alvin9999/new-pac/wiki/vless%E5%85%8D%E8%B4%B9%E8%B4%A6%E5%8F%B7"
+        # 读取网页内容文件
+        WEBPAGE_CONTENT=$(cat webpage_content.txt)
 
-        # 抓取 vmess 节点
-        VMESS_NODES=$(curl -s "$VMESS_URL" | grep -oP 'vmess://[^"]+' | sed 's/<[^>]*>//g')
+        # 从文件中提取 vmess 节点
+        VMESS_NODES=$(echo "$WEBPAGE_CONTENT" | grep -oP 'vmess://[^"]+' | sed 's/<[^>]*>//g' | sort -u)
+        # 保存提取的 vmess 节点到临时文件
+        echo "$VMESS_NODES" > vmess_nodes_temp.txt
 
-        # 抓取 vless 节点（包括查询参数和 URL 编码部分）
-        VLESS_NODES=$(curl -s "$VLESS_URL" | grep -oP 'vless://[^"]+' | sed 's/<[^>]*>//g')
+        # 从文件中提取 vless 节点
+        VLESS_NODES=$(echo "$WEBPAGE_CONTENT" | grep -oP 'vless://[^"]+' | sed 's/<[^>]*>//g' | sort -u)
+        # 保存提取的 vless 节点到临时文件
+        echo "$VLESS_NODES" > vless_nodes_temp.txt
 
-        # 合并 vmess 和 vless 节点，去重
-        ALL_NODES=$(echo -e "$VMESS_NODES\n$VLESS_NODES" | sort -u)
+        # 合并 vmess 和 vless 节点
+        ALL_NODES=$(echo -e "$VMESS_NODES\n$VLESS_NODES")
 
         # 检查文件是否需要更新
         if [ -f "dizhi1.txt" ]; then
           # 使用 cmp 比较文件内容
           if cmp -s "dizhi1.txt" <(echo "$ALL_NODES"); then
-            echo "v2ray and vless nodes have not changed, skipping update."
+            echo "v2ray 和 vless 节点没有变化，跳过更新。"
             exit 0
           fi
         fi
 
         # 更新 dizhi1.txt 文件
         echo "$ALL_NODES" > dizhi1.txt
-        echo "v2ray and vless nodes updated successfully."
+        echo "v2ray 和 vless 节点更新成功。"
 
-    # 获取 ss 节点链接并更新 dizhi2.txt
-    - name: Fetch and Update ss Nodes
+    # 从本地文件分析 ss 节点
+    - name: Fetch and Update ss Nodes from Local File
       run: |
-        # 从ss免费账号网页抓取数据
-        SS_URL="https://github.com/Alvin9999/new-pac/wiki/ss%E5%85%8D%E8%B4%B9%E8%B4%A6%E5%8F%B7"
-        SS_NODES=$(curl -s "$SS_URL" | grep -oP 'ss://[^"]+' | sed 's/<[^>]*>//g' | sort -u)
+        # 检查文件是否存在
+        if [ ! -f "webpage_content.txt" ]; then
+          echo "webpage_content.txt 文件不存在！"
+          exit 1
+        fi
+
+        # 读取网页内容文件
+        WEBPAGE_CONTENT=$(cat webpage_content.txt)
+
+        # 从文件中提取 ss 节点
+        SS_NODES=$(echo "$WEBPAGE_CONTENT" | grep -oP 'ss://[^"]+' | sed 's/<[^>]*>//g' | sort -u)
+        # 保存提取的 ss 节点到临时文件
+        echo "$SS_NODES" > ss_nodes_temp.txt
 
         # 检查文件是否需要更新
         if [ -f "dizhi2.txt" ]; then
           # 使用 cmp 比较文件内容
           if cmp -s "dizhi2.txt" <(echo "$SS_NODES"); then
-            echo "ss nodes have not changed, skipping update."
+            echo "ss 节点没有变化，跳过更新。"
             exit 0
           fi
         fi
 
         # 更新 dizhi2.txt 文件
         echo "$SS_NODES" > dizhi2.txt
-        echo "ss nodes updated successfully."
+        echo "ss 节点更新成功。"
 
-    # 提交文件更新
-    - name: Commit and Push changes
+    # 拉取远程更改并提交本地更改
+    - name: Pull remote changes and commit updates
       run: |
+        git pull origin main --rebase # 拉取远程仓库的更改并重基（保持提交历史整洁）
         git config --global user.name "GitHub Actions"
         git config --global user.email "actions@github.com"
-        git add dizhi1.txt dizhi2.txt
+        git add dizhi1.txt dizhi2.txt vmess_nodes_temp.txt vless_nodes_temp.txt ss_nodes_temp.txt
         git commit -m "Update nodes data"
-        git push
+        git push origin main
