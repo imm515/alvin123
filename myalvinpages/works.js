@@ -5,10 +5,27 @@ async function loadNodes() {
     let allNodes = [];
 
     try {
+        // 检查至少有一个文件存在
+        const validFiles = [];
         for (const file of files) {
-            // 使用 fetch 读取文件内容
+            try {
+                const response = await fetch(file);
+                if (response.ok) {
+                    validFiles.push(file);
+                }
+            } catch (e) {
+                // 如果某个文件无法读取，则跳过
+            }
+        }
+
+        // 如果没有有效文件，抛出错误
+        if (validFiles.length === 0) {
+            throw new Error('没有找到有效的文件：dizhi1.txt 或 dizhi2.txt');
+        }
+
+        // 使用有效文件读取数据
+        for (const file of validFiles) {
             const response = await fetch(file);
-            if (!response.ok) throw new Error(`无法加载文件: ${file}`);
             const text = await response.text();
 
             // 将文本按行分割，合并到 allNodes 数组中
