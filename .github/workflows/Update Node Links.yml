@@ -20,50 +20,18 @@ jobs:
         VMESS_URL="https://github.com/Alvin9999/new-pac/wiki/v2ray%E5%85%8D%E8%B4%B9%E8%B4%A6%E5%8F%B7"
         SS_URL="https://github.com/Alvin9999/new-pac/wiki/ss%E5%85%8D%E8%B4%B9%E8%B4%A6%E5%8F%B7"
         
-        # 获取网页内容并清理HTML标签，使用 Python 脚本进行替换
-        curl -s "$VMESS_URL" | python3 -c "
-import sys
-import re
-
-# 读取网页内容
-content = sys.stdin.read()
-
-# 去除HTML标签
-content = re.sub(r'<[^>]*>', '', content)
-
-# 替换 &amp; 为 & 等HTML实体字符
-content = content.replace('&amp;', '&').replace('&lt;', '<').replace('&gt;', '>').replace('&quot;', '\"').replace('&#39;', '\'')
-
-# 输出清理后的内容
-sys.stdout.write(content)
-        " > webpage_content.txt
-
-        curl -s "$SS_URL" | python3 -c "
-import sys
-import re
-
-# 读取网页内容
-content = sys.stdin.read()
-
-# 去除HTML标签
-content = re.sub(r'<[^>]*>', '', content)
-
-# 替换 &amp; 为 & 等HTML实体字符
-content = content.replace('&amp;', '&').replace('&lt;', '<').replace('&gt;', '>').replace('&quot;', '\"').replace('&#39;', '\'')
-
-# 输出清理后的内容
-sys.stdout.write(content)
-        " > ss_webpage_content.txt
-
+        # 获取网页内容，去掉 HTML 标签，并保存为纯文本文件
+        curl -s "$VMESS_URL" | sed 's/<[^>]*>//g' > webpage_content.txt
+        curl -s "$SS_URL" | sed 's/<[^>]*>//g' > ss_webpage_content.txt
         echo "Webpage content cleaned and saved."
 
     # 从保存的完整网页内容中提取并更新节点信息
     - name: Fetch and Update Nodes from Content Files
       run: |
-        # 提取包含 vmess://、vless://、ss:// 的整行内容，并且替换 &amp; 为 & 
-        VMESS_NODES=$(grep -oP '.*vmess://\S+' webpage_content.txt | sed 's/^[[:space:]]*//;s/[[:space:]]*$//')
-        VLESS_NODES=$(grep -oP '.*vless://\S+' webpage_content.txt | sed 's/^[[:space:]]*//;s/[[:space:]]*$//')
-        SS_NODES=$(grep -oP '.*ss://\S+' ss_webpage_content.txt | sed 's/^[[:space:]]*//;s/[[:space:]]*$//')
+        # 提取包含 vmess://、vless://、ss:// 的整行内容
+        VMESS_NODES=$(grep -oP '.*vmess://\S+' webpage_content.txt | sed 's/^[[:space:]]*//;s/[[:space:]]*$//' | sort -u)
+        VLESS_NODES=$(grep -oP '.*vless://\S+' webpage_content.txt | sed 's/^[[:space:]]*//;s/[[:space:]]*$//' | sort -u)
+        SS_NODES=$(grep -oP '.*ss://\S+' ss_webpage_content.txt | sed 's/^[[:space:]]*//;s/[[:space:]]*$//' | sort -u)
 
         # 保存提取的节点链接到文件
         echo "$VMESS_NODES" > dizhi1.txt
