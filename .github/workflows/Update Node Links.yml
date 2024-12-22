@@ -29,15 +29,9 @@ jobs:
     - name: Fetch and Update Nodes from Content Files
       run: |
         # 提取包含 vmess://、vless://、ss:// 的整行内容
-        #VMESS_NODES=$(grep -oP '.*vmess://\S+' webpage_content.txt | sed 's/^[[:space:]]*//;s/[[:space:]]*$//' | sort -u)
-        #VLESS_NODES=$(grep -oP '.*vless://\S+' webpage_content.txt | sed 's/^[[:space:]]*//;s/[[:space:]]*$//' | sort -u)
-        #SS_NODES=$(grep -oP '.*ss://\S+' ss_webpage_content.txt | sed 's/^[[:space:]]*//;s/[[:space:]]*$//' | sort -u)
-
         VMESS_NODES=$(grep -oP '.*vmess://\S+' webpage_content.txt | sed 's/^[[:space:]]*//;s/[[:space:]]*$//;s/&amp;/\&/g' | sort -u)
         VLESS_NODES=$(grep -oP '.*vless://\S+' webpage_content.txt | sed 's/^[[:space:]]*//;s/[[:space:]]*$//;s/&amp;/\&/g' | sort -u)
         SS_NODES=$(grep -oP '.*ss://\S+' ss_webpage_content.txt | sed 's/^[[:space:]]*//;s/[[:space:]]*$//;s/&amp;/\&/g' | sort -u)
-
-
 
         # 保存提取的节点链接到文件
         echo "$VMESS_NODES" > dizhi1.txt
@@ -45,11 +39,21 @@ jobs:
         echo "$SS_NODES" > dizhi3.txt
         echo "Node data saved to files."
 
-    # 提交文件更新
+    # 检查文件是否发生变化，如果有变化才提交
+    - name: Check if files changed
+      run: |
+        git diff --exit-code dizhi1.txt dizhi2.txt dizhi3.txt ss_webpage_content.txt webpage_content.txt
+      continue-on-error: true
+
+    # 提交文件更新（如果文件有变化）
     - name: Commit and Push changes
       run: |
-        git config --global user.name "GitHub Actions"
-        git config --global user.email "actions@github.com"
-        git add dizhi1.txt dizhi2.txt dizhi3.txt ss_webpage_content.txt webpage_content.txt
-        git commit -m "Update nodes data"
-        git push
+        if [[ $(git diff --exit-code dizhi1.txt dizhi2.txt dizhi3.txt ss_webpage_content.txt webpage_content.txt) ]]; then
+          echo "No changes detected. Skipping commit."
+        else
+          git config --global user.name "GitHub Actions"
+          git config --global user.email "actions@github.com"
+          git add dizhi1.txt dizhi2.txt dizhi3.txt ss_webpage_content.txt webpage_content.txt
+          git commit -m "Update nodes data"
+          git push
+        fi
