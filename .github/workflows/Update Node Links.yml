@@ -14,35 +14,30 @@ jobs:
     - name: Checkout repository
       uses: actions/checkout@v3
 
-    # 获取网页内容并保存为文件
-    - name: Fetch and Save Webpage Content
+    # 获取网页内容并保存为文件，先去除 HTML 标签
+    - name: Fetch and Clean Webpage Content
       run: |
         VMESS_URL="https://github.com/Alvin9999/new-pac/wiki/v2ray%E5%85%8D%E8%B4%B9%E8%B4%A6%E5%8F%B7"
         SS_URL="https://github.com/Alvin9999/new-pac/wiki/ss%E5%85%8D%E8%B4%B9%E8%B4%A6%E5%8F%B7"
         
-        # 保存完整的网页内容到文件
-        curl -s "$VMESS_URL" -o webpage_content.txt
-        curl -s "$SS_URL" -o ss_webpage_content.txt
+        # 获取网页内容，去掉 HTML 标签，并保存为纯文本文件
+        curl -s "$VMESS_URL" | sed 's/<[^>]*>//g' > webpage_content.txt
+        curl -s "$SS_URL" | sed 's/<[^>]*>//g' > ss_webpage_content.txt
+        echo "Webpage content cleaned and saved."
 
     # 从保存的完整网页内容中提取并更新节点信息
     - name: Fetch and Update Nodes from Content Files
       run: |
-        # 从网页内容文件中提取 v2ray 和 ss 节点
+        # 提取v2ray、vless和ss节点
         VMESS_NODES=$(grep -oP 'vmess://[^"]+' webpage_content.txt | sort -u)
+        VLESS_NODES=$(grep -oP 'vless://[^"]+' webpage_content.txt | sort -u)
         SS_NODES=$(grep -oP 'ss://[^"]+' ss_webpage_content.txt | sort -u)
 
-        # 修正vless部分提取的正则表达式，考虑复杂的URL参数
-        VLESS_NODES=$(grep -oP 'vless://[^"]+' webpage_content.txt | sort -u)
-
-        # 清理可能的HTML转义字符（如&符号）
-        VMESS_NODES=$(echo "$VMESS_NODES" | sed 's/&amp;/&/g')
-        VLESS_NODES=$(echo "$VLESS_NODES" | sed 's/&amp;/&/g')
-        SS_NODES=$(echo "$SS_NODES" | sed 's/&amp;/&/g')
-
-        # 保存提取的节点到对应的文件
+        # 直接保存提取的节点，不清理转义字符
         echo "$VMESS_NODES" > dizhi1.txt
         echo "$VLESS_NODES" > dizhi2.txt
         echo "$SS_NODES" > dizhi3.txt
+        echo "Node data saved to files."
 
     # 提交文件更新
     - name: Commit and Push changes
