@@ -28,16 +28,9 @@ jobs:
     # 从保存的完整网页内容中提取并更新节点信息
     - name: Fetch and Update Nodes from Content Files
       run: |
-        # 提取包含 vmess://、vless://、ss:// 的整行内容
-        #VMESS_NODES=$(grep -oP '.*vmess://\S+' webpage_content.txt | sed 's/^[[:space:]]*//;s/[[:space:]]*$//' | sort -u)
-        #VLESS_NODES=$(grep -oP '.*vless://\S+' webpage_content.txt | sed 's/^[[:space:]]*//;s/[[:space:]]*$//' | sort -u)
-        #SS_NODES=$(grep -oP '.*ss://\S+' ss_webpage_content.txt | sed 's/^[[:space:]]*//;s/[[:space:]]*$//' | sort -u)
-
         VMESS_NODES=$(grep -oP '.*vmess://\S+' webpage_content.txt | sed 's/^[[:space:]]*//;s/[[:space:]]*$//;s/&amp;/\&/g' | sort -u)
         VLESS_NODES=$(grep -oP '.*vless://\S+' webpage_content.txt | sed 's/^[[:space:]]*//;s/[[:space:]]*$//;s/&amp;/\&/g' | sort -u)
         SS_NODES=$(grep -oP '.*ss://\S+' ss_webpage_content.txt | sed 's/^[[:space:]]*//;s/[[:space:]]*$//;s/&amp;/\&/g' | sort -u)
-
-
 
         # 保存提取的节点链接到文件
         echo "$VMESS_NODES" > dizhi1.txt
@@ -45,11 +38,29 @@ jobs:
         echo "$SS_NODES" > dizhi3.txt
         echo "Node data saved to files."
 
+    # 将 .txt 文件转换为 .html 文件，并粘贴到 myalvinpages 文件夹中
+    - name: Convert TXT files to HTML and move to myalvinpages
+      run: |
+        # 创建一个 HTML 文件转换模板
+        convert_to_html() {
+          input_file=$1
+          output_file=$2
+          echo "<html><body><pre>" > "$output_file"
+          cat "$input_file" >> "$output_file"
+          echo "</pre></body></html>" >> "$output_file"
+        }
+
+        # 转换文件并粘贴到 myalvinpages 文件夹中
+        convert_to_html dizhi1.txt myalvinpages/dizhi1.html
+        convert_to_html dizhi2.txt myalvinpages/dizhi2.html
+        convert_to_html dizhi3.txt myalvinpages/dizhi3.html
+        echo "TXT files converted to HTML and moved to myalvinpages/."
+
     # 提交文件更新
     - name: Commit and Push changes
       run: |
         git config --global user.name "GitHub Actions"
         git config --global user.email "actions@github.com"
-        git add dizhi1.txt dizhi2.txt dizhi3.txt ss_webpage_content.txt webpage_content.txt
-        git commit -m "Update nodes data"
+        git add dizhi1.txt dizhi2.txt dizhi3.txt ss_webpage_content.txt webpage_content.txt myalvinpages/dizhi1.html myalvinpages/dizhi2.html myalvinpages/dizhi3.html
+        git commit -m "Update nodes data and HTML files"
         git push
