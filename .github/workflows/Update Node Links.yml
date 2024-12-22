@@ -28,7 +28,7 @@ jobs:
     # 从保存的完整网页内容中提取并更新节点信息
     - name: Fetch and Update Nodes from Content Files
       run: |
-        # 提取包含 vmess://、vless://、ss:// 的整行内容，并替换转义字符 &amp; 为 & 
+        # 提取包含 vmess://、vless://、ss:// 的整行内容，并且替换 &amp; 为 & 
         VMESS_NODES=$(grep -oP '.*vmess://\S+' webpage_content.txt | sed 's/^[[:space:]]*//;s/[[:space:]]*$//' | sed 's/&amp;/&/g' | sort -u)
         VLESS_NODES=$(grep -oP '.*vless://\S+' webpage_content.txt | sed 's/^[[:space:]]*//;s/[[:space:]]*$//' | sed 's/&amp;/&/g' | sort -u)
         SS_NODES=$(grep -oP '.*ss://\S+' ss_webpage_content.txt | sed 's/^[[:space:]]*//;s/[[:space:]]*$//' | sed 's/&amp;/&/g' | sort -u)
@@ -38,6 +38,7 @@ jobs:
         echo "$VLESS_NODES" > dizhi2.txt
         echo "$SS_NODES" > dizhi3.txt
         echo "Node data saved to files."
+
 
 
     # 提交文件更新
