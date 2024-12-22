@@ -29,9 +29,15 @@ jobs:
     - name: Fetch and Update Nodes from Content Files
       run: |
         # 提取包含 vmess://、vless://、ss:// 的整行内容
-        VMESS_NODES=$(grep -oP '.*vmess://\S+' webpage_content.txt | sed 's/^[[:space:]]*//;s/[[:space:]]*$//' | sort -u)
-        VLESS_NODES=$(grep -oP '.*vless://\S+' webpage_content.txt | sed 's/^[[:space:]]*//;s/[[:space:]]*$//' | sort -u)
-        SS_NODES=$(grep -oP '.*ss://\S+' ss_webpage_content.txt | sed 's/^[[:space:]]*//;s/[[:space:]]*$//' | sort -u)
+        #VMESS_NODES=$(grep -oP '.*vmess://\S+' webpage_content.txt | sed 's/^[[:space:]]*//;s/[[:space:]]*$//' | sort -u)
+        #VLESS_NODES=$(grep -oP '.*vless://\S+' webpage_content.txt | sed 's/^[[:space:]]*//;s/[[:space:]]*$//' | sort -u)
+        #SS_NODES=$(grep -oP '.*ss://\S+' ss_webpage_content.txt | sed 's/^[[:space:]]*//;s/[[:space:]]*$//' | sort -u)
+
+        VMESS_NODES=$(grep -oP '.*vmess://\S+' webpage_content.txt | sed 's/^[[:space:]]*//;s/[[:space:]]*$//;s/&amp;/\&/g' | sort -u)
+        VLESS_NODES=$(grep -oP '.*vless://\S+' webpage_content.txt | sed 's/^[[:space:]]*//;s/[[:space:]]*$//;s/&amp;/\&/g' | sort -u)
+        SS_NODES=$(grep -oP '.*ss://\S+' ss_webpage_content.txt | sed 's/^[[:space:]]*//;s/[[:space:]]*$//;s/&amp;/\&/g' | sort -u)
+
+
 
         # 保存提取的节点链接到文件
         echo "$VMESS_NODES" > dizhi1.txt
