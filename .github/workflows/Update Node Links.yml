@@ -14,8 +14,8 @@ jobs:
     - name: Checkout repository
       uses: actions/checkout@v3
 
-    # 获取 v2ray 节点链接并更新 dizhi1.txt
-    - name: Fetch and Update v2ray Nodes
+    # 获取 v2ray 和 vless 节点链接并更新 dizhi1.txt
+    - name: Fetch and Update v2ray and vless Nodes
       run: |
         # 安装依赖
         sudo apt-get update
@@ -23,20 +23,29 @@ jobs:
 
         # 从v2ray免费账号网页抓取数据
         VMESS_URL="https://github.com/Alvin9999/new-pac/wiki/v2ray%E5%85%8D%E8%B4%B9%E8%B4%A6%E5%8F%B7"
-        VMESS_NODES=$(curl -s "$VMESS_URL" | grep -oP 'vmess://[^"]+' | sed 's/<[^>]*>//g' | sort -u)
+        VLESS_URL="https://github.com/Alvin9999/new-pac/wiki/vless%E5%85%8D%E8%B4%B9%E8%B4%A6%E5%8F%B7"
+
+        # 抓取 vmess 节点
+        VMESS_NODES=$(curl -s "$VMESS_URL" | grep -oP 'vmess://[^"]+' | sed 's/<[^>]*>//g')
+
+        # 抓取 vless 节点
+        VLESS_NODES=$(curl -s "$VLESS_URL" | grep -oP 'vless://[^"]+' | sed 's/<[^>]*>//g')
+
+        # 合并 vmess 和 vless 节点，去重
+        ALL_NODES=$(echo -e "$VMESS_NODES\n$VLESS_NODES" | sort -u)
 
         # 检查文件是否需要更新
         if [ -f "dizhi1.txt" ]; then
           # 使用 cmp 比较文件内容
-          if cmp -s "dizhi1.txt" <(echo "$VMESS_NODES"); then
-            echo "v2ray nodes have not changed, skipping update."
+          if cmp -s "dizhi1.txt" <(echo "$ALL_NODES"); then
+            echo "v2ray and vless nodes have not changed, skipping update."
             exit 0
           fi
         fi
 
         # 更新 dizhi1.txt 文件
-        echo "$VMESS_NODES" > dizhi1.txt
-        echo "v2ray nodes updated successfully."
+        echo "$ALL_NODES" > dizhi1.txt
+        echo "v2ray and vless nodes updated successfully."
 
     # 获取 ss 节点链接并更新 dizhi2.txt
     - name: Fetch and Update ss Nodes
