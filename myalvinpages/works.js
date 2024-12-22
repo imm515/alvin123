@@ -20,15 +20,23 @@ async function loadNodes() {
         }
 
         // 输出所有节点信息
-        allNodes.forEach(node => {
-            const paragraph = document.createElement('p');
-            paragraph.textContent = node;
-            outputDiv.appendChild(paragraph);
-        });
+        const subscriptionLink = generateV2RayNSubscription(allNodes);
+        const subscriptionParagraph = document.createElement('p');
+        subscriptionParagraph.textContent = `V2RayN 订阅地址: ${subscriptionLink}`;
+        outputDiv.appendChild(subscriptionParagraph);
+
     } catch (error) {
         console.error('加载文件失败：', error);
         outputDiv.textContent = '加载节点信息失败，请检查文件路径或网络连接。';
     }
+}
+
+// 生成 V2RayN 可用的订阅链接
+function generateV2RayNSubscription(nodes) {
+    // 将每个节点信息加入到订阅地址中
+    const base64Nodes = nodes.map(node => encodeURIComponent(node)).join('&');
+    const subscriptionUrl = `vmess://${base64Nodes}`;
+    return subscriptionUrl;
 }
 
 // 加载节点信息
