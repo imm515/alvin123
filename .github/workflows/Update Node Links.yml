@@ -28,7 +28,7 @@ jobs:
         # 抓取 vmess 节点
         VMESS_NODES=$(curl -s "$VMESS_URL" | grep -oP 'vmess://[^"]+' | sed 's/<[^>]*>//g')
 
-        # 抓取 vless 节点
+        # 抓取 vless 节点（包括查询参数和 URL 编码部分）
         VLESS_NODES=$(curl -s "$VLESS_URL" | grep -oP 'vless://[^"]+' | sed 's/<[^>]*>//g')
 
         # 合并 vmess 和 vless 节点，去重
