@@ -21,15 +21,14 @@ jobs:
         sudo apt-get update
         sudo apt-get install -y curl jq
 
-        # 从v2ray免费账号网页抓取数据
+        # 从v2ray免费账号网页抓取数据并清除HTML标签
         VMESS_URL="https://github.com/Alvin9999/new-pac/wiki/v2ray%E5%85%8D%E8%B4%B9%E8%B4%A6%E5%8F%B7"
-        VMESS_NODES=$(curl -s "$VMESS_URL" | grep -oP 'vmess://[^"]+' | sort -u)
+        VMESS_NODES=$(curl -s "$VMESS_URL" | grep -oP 'vmess://[^"]+' | sort -u | sed 's/<[^>]*>//g')
 
         # 检查文件是否需要更新
         if [ -f "dizhi1.txt" ]; then
-          EXISTING_VMESS_NODES=$(cat dizhi1.txt)
-          # 使用 cmp 比较文件内容，确保文件格式一致
-          if cmp -s <(echo "$EXISTING_VMESS_NODES" | sort -u) <(echo "$VMESS_NODES" | sort -u); then
+          # 使用 cmp 比较文件内容
+          if cmp -s "dizhi1.txt" <(echo "$VMESS_NODES"); then
             echo "v2ray nodes have not changed, skipping update."
             exit 0
           fi
@@ -42,15 +41,14 @@ jobs:
     # 获取 ss 节点链接并更新 dizhi2.txt
     - name: Fetch and Update ss Nodes
       run: |
-        # 从ss免费账号网页抓取数据
+        # 从ss免费账号网页抓取数据并清除HTML标签
         SS_URL="https://github.com/Alvin9999/new-pac/wiki/ss%E5%85%8D%E8%B4%B9%E8%B4%A6%E5%8F%B7"
-        SS_NODES=$(curl -s "$SS_URL" | grep -oP 'ss://[^"]+' | sort -u)
+        SS_NODES=$(curl -s "$SS_URL" | grep -oP 'ss://[^"]+' | sort -u | sed 's/<[^>]*>//g')
 
         # 检查文件是否需要更新
         if [ -f "dizhi2.txt" ]; then
-          EXISTING_SS_NODES=$(cat dizhi2.txt)
-          # 使用 cmp 比较文件内容，确保文件格式一致
-          if cmp -s <(echo "$EXISTING_SS_NODES" | sort -u) <(echo "$SS_NODES" | sort -u); then
+          # 使用 cmp 比较文件内容
+          if cmp -s "dizhi2.txt" <(echo "$SS_NODES"); then
             echo "ss nodes have not changed, skipping update."
             exit 0
           fi
