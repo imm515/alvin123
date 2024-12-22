@@ -21,9 +21,9 @@ jobs:
         sudo apt-get update
         sudo apt-get install -y curl jq
 
-        # 从v2ray免费账号网页抓取数据并清除HTML标签
+        # 从v2ray免费账号网页抓取数据
         VMESS_URL="https://github.com/Alvin9999/new-pac/wiki/v2ray%E5%85%8D%E8%B4%B9%E8%B4%A6%E5%8F%B7"
-        VMESS_NODES=$(curl -s "$VMESS_URL" | grep -oP 'vmess://[^"]+' | sort -u | sed 's/<[^>]*>//g')
+        VMESS_NODES=$(curl -s "$VMESS_URL" | grep -oP 'vmess://[^"]+' | sed 's/<[^>]*>//g' | sort -u)
 
         # 检查文件是否需要更新
         if [ -f "dizhi1.txt" ]; then
@@ -41,9 +41,9 @@ jobs:
     # 获取 ss 节点链接并更新 dizhi2.txt
     - name: Fetch and Update ss Nodes
       run: |
-        # 从ss免费账号网页抓取数据并清除HTML标签
+        # 从ss免费账号网页抓取数据
         SS_URL="https://github.com/Alvin9999/new-pac/wiki/ss%E5%85%8D%E8%B4%B9%E8%B4%A6%E5%8F%B7"
-        SS_NODES=$(curl -s "$SS_URL" | grep -oP 'ss://[^"]+' | sort -u | sed 's/<[^>]*>//g')
+        SS_NODES=$(curl -s "$SS_URL" | grep -oP 'ss://[^"]+' | sed 's/<[^>]*>//g' | sort -u)
 
         # 检查文件是否需要更新
         if [ -f "dizhi2.txt" ]; then
