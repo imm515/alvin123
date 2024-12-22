@@ -2,7 +2,6 @@ name: Update Node Links
 
 on:
   schedule:
-    # - cron: '0 0 * * *'  # 每天午夜自动运行一次
     - cron: '0 */8 * * *'  # 每8小时自动运行一次
   workflow_dispatch:  # 支持手动触发
 
@@ -42,6 +41,9 @@ jobs:
     # 将 .txt 文件转换为 .html 文件，并粘贴到 myalvinpages 文件夹中
     - name: Convert TXT files to HTML and move to myalvinpages
       run: |
+        # 确保 myalvinpages 目录存在
+        mkdir -p myalvinpages
+
         # 创建一个 HTML 文件转换模板
         convert_to_html() {
           input_file=$1
