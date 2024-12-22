@@ -14,80 +14,70 @@ jobs:
     - name: Checkout repository
       uses: actions/checkout@v3
 
-    # 从本地文件分析 vmess 和 vless 节点
-    - name: Fetch and Update v2ray and vless Nodes from Local File
+    # 获取网页内容并保存为文件
+    - name: Fetch and Save Webpage Content
       run: |
-        # 检查文件是否存在
-        if [ ! -f "webpage_content.txt" ]; then
-          echo "webpage_content.txt 文件不存在！"
-          exit 1
-        fi
+        # 获取v2ray和vless节点页面内容并保存为文件
+        VMESS_URL="https://github.com/Alvin9999/new-pac/wiki/v2ray%E5%85%8D%E8%B4%B9%E8%B4%A6%E5%8F%B7"
+        SS_URL="https://github.com/Alvin9999/new-pac/wiki/ss%E5%85%8D%E8%B4%B9%E8%B4%A6%E5%8F%B7"
+        
+        # 保存v2ray内容到文件
+        curl -s "$VMESS_URL" -o webpage_content.txt
+        echo "Webpage content saved to webpage_content.txt"
 
-        # 读取网页内容文件
-        WEBPAGE_CONTENT=$(cat webpage_content.txt)
+        # 保存ss内容到文件
+        curl -s "$SS_URL" -o ss_webpage_content.txt
+        echo "SS webpage content saved to ss_webpage_content.txt"
 
-        # 从文件中提取 vmess 节点
-        VMESS_NODES=$(echo "$WEBPAGE_CONTENT" | grep -oP 'vmess://[^"]+' | sed 's/<[^>]*>//g' | sort -u)
-        # 保存提取的 vmess 节点到临时文件
+    # 获取 v2ray 节点并更新 dizhi1.txt
+    - name: Fetch and Update v2ray Nodes
+      run: |
+        # 从保存的网页内容文件中提取 vmess 和 vless 节点
+        VMESS_NODES=$(grep -oP 'vmess://[^"]+' webpage_content.txt | sort -u)
+        VLESS_NODES=$(grep -oP 'vless://[^"]+' webpage_content.txt | sort -u)
+
+        # 合并 v2ray 和 vless 节点并保存
         echo "$VMESS_NODES" > vmess_nodes_temp.txt
-
-        # 从文件中提取 vless 节点
-        VLESS_NODES=$(echo "$WEBPAGE_CONTENT" | grep -oP 'vless://[^"]+' | sed 's/<[^>]*>//g' | sort -u)
-        # 保存提取的 vless 节点到临时文件
-        echo "$VLESS_NODES" > vless_nodes_temp.txt
-
-        # 合并 vmess 和 vless 节点
-        ALL_NODES=$(echo -e "$VMESS_NODES\n$VLESS_NODES")
+        echo "$VLESS_NODES" >> vmess_nodes_temp.txt
+        echo "v2ray and vless nodes saved to vmess_nodes_temp.txt"
 
         # 检查文件是否需要更新
         if [ -f "dizhi1.txt" ]; then
-          # 使用 cmp 比较文件内容
-          if cmp -s "dizhi1.txt" <(echo "$ALL_NODES"); then
-            echo "v2ray 和 vless 节点没有变化，跳过更新。"
+          EXISTING_VMESS_NODES=$(cat dizhi1.txt)
+          if [ "$EXISTING_VMESS_NODES" == "$VMESS_NODES" ]; then
+            echo "v2ray nodes have not changed, skipping update."
             exit 0
           fi
         fi
 
         # 更新 dizhi1.txt 文件
-        echo "$ALL_NODES" > dizhi1.txt
-        echo "v2ray 和 vless 节点更新成功。"
+        echo "$VMESS_NODES" > dizhi1.txt
+        echo "v2ray nodes updated successfully."
 
-    # 从本地文件分析 ss 节点
-    - name: Fetch and Update ss Nodes from Local File
+    # 获取 ss 节点链接并更新 dizhi2.txt
+    - name: Fetch and Update ss Nodes
       run: |
-        # 检查文件是否存在
-        if [ ! -f "webpage_content.txt" ]; then
-          echo "webpage_content.txt 文件不存在！"
-          exit 1
-        fi
-
-        # 读取网页内容文件
-        WEBPAGE_CONTENT=$(cat webpage_content.txt)
-
-        # 从文件中提取 ss 节点
-        SS_NODES=$(echo "$WEBPAGE_CONTENT" | grep -oP 'ss://[^"]+' | sed 's/<[^>]*>//g' | sort -u)
-        # 保存提取的 ss 节点到临时文件
-        echo "$SS_NODES" > ss_nodes_temp.txt
+        # 从保存的ss网页内容文件中提取 ss 节点
+        SS_NODES=$(grep -oP 'ss://[^"]+' ss_webpage_content.txt | sort -u)
 
         # 检查文件是否需要更新
         if [ -f "dizhi2.txt" ]; then
-          # 使用 cmp 比较文件内容
-          if cmp -s "dizhi2.txt" <(echo "$SS_NODES"); then
-            echo "ss 节点没有变化，跳过更新。"
+          EXISTING_SS_NODES=$(cat dizhi2.txt)
+          if [ "$EXISTING_SS_NODES" == "$SS_NODES" ]; then
+            echo "ss nodes have not changed, skipping update."
             exit 0
           fi
         fi
 
         # 更新 dizhi2.txt 文件
         echo "$SS_NODES" > dizhi2.txt
-        echo "ss 节点更新成功。"
+        echo "ss nodes updated successfully."
 
-    # 拉取远程更改并提交本地更改
-    - name: Pull remote changes and commit updates
+    # 提交文件更新
+    - name: Commit and Push changes
       run: |
-        git pull origin main --rebase # 拉取远程仓库的更改并重基（保持提交历史整洁）
         git config --global user.name "GitHub Actions"
         git config --global user.email "actions@github.com"
-        git add dizhi1.txt dizhi2.txt vmess_nodes_temp.txt vless_nodes_temp.txt ss_nodes_temp.txt
+        git add dizhi1.txt dizhi2.txt vmess_nodes_temp.txt ss_webpage_content.txt webpage_content.txt
         git commit -m "Update nodes data"
-        git push origin main
+        git push
