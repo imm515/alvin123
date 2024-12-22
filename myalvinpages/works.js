@@ -12,7 +12,10 @@ async function loadNodes() {
             const text = await response.text();
 
             // 将文本按行分割，合并到 allNodes 数组中
-            const nodes = text.split('\n').filter(line => line.trim() !== '');
+            const nodes = text.split('\n')
+                .map(line => line.trim())  // 去除每行的多余空格和换行符
+                .filter(line => line !== ''); // 过滤空行
+
             allNodes = [...allNodes, ...nodes];
         }
 
