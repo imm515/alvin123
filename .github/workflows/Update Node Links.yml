@@ -14,7 +14,7 @@ jobs:
     - name: Checkout repository
       uses: actions/checkout@v3
 
-    # 获取网页内容并保存为文件，先去除 HTML 标签
+    # 获取网页内容并保存为文件，去掉 HTML 标签
     - name: Fetch and Clean Webpage Content
       run: |
         VMESS_URL="https://github.com/Alvin9999/new-pac/wiki/v2ray%E5%85%8D%E8%B4%B9%E8%B4%A6%E5%8F%B7"
@@ -28,12 +28,12 @@ jobs:
     # 从保存的完整网页内容中提取并更新节点信息
     - name: Fetch and Update Nodes from Content Files
       run: |
-        # 提取v2ray、vless和ss节点
-        VMESS_NODES=$(grep -oP 'vmess://[^"]+' webpage_content.txt | sort -u)
-        VLESS_NODES=$(grep -oP 'vless://[^"]+' webpage_content.txt | sort -u)
-        SS_NODES=$(grep -oP 'ss://[^"]+' ss_webpage_content.txt | sort -u)
+        # 提取包含 vmess://、vless://、ss:// 的整行内容
+        VMESS_NODES=$(grep -oP '.*vmess://\S+' webpage_content.txt | sed 's/^[[:space:]]*//;s/[[:space:]]*$//' | sort -u)
+        VLESS_NODES=$(grep -oP '.*vless://\S+' webpage_content.txt | sed 's/^[[:space:]]*//;s/[[:space:]]*$//' | sort -u)
+        SS_NODES=$(grep -oP '.*ss://\S+' ss_webpage_content.txt | sed 's/^[[:space:]]*//;s/[[:space:]]*$//' | sort -u)
 
-        # 直接保存提取的节点，不清理转义字符
+        # 保存提取的节点链接到文件
         echo "$VMESS_NODES" > dizhi1.txt
         echo "$VLESS_NODES" > dizhi2.txt
         echo "$SS_NODES" > dizhi3.txt
@@ -44,6 +44,6 @@ jobs:
       run: |
         git config --global user.name "GitHub Actions"
         git config --global user.email "actions@github.com"
-        git add dizhi1.txt dizhi2.txt dizhi3.txt ss_webpage_content.txt webpage_content.txt
+        git add dizhi1.txt dizhi2.txt dizzi3.txt ss_webpage_content.txt webpage_content.txt
         git commit -m "Update nodes data"
         git push
