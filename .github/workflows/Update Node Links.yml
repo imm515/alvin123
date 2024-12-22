@@ -44,6 +44,6 @@ jobs:
       run: |
         git config --global user.name "GitHub Actions"
         git config --global user.email "actions@github.com"
-        git add dizhi1.txt dizhi2.txt dizzi3.txt ss_webpage_content.txt webpage_content.txt
+        git add dizhi1.txt dizhi2.txt dizhi3.txt ss_webpage_content.txt webpage_content.txt
         git commit -m "Update nodes data"
         git push
