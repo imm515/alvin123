@@ -887,7 +887,7 @@
           >
           
             
-            <input id="query-builder-test" name="query-builder-test" value="" autocomplete="off" type="text" role="combobox" spellcheck="false" aria-expanded="false" aria-describedby="validation-cd942020-b033-4f4e-9f4f-8f1c2a9ac5a0" data-target="query-builder.input" data-action="
+            <input id="query-builder-test" name="query-builder-test" value="" autocomplete="off" type="text" role="combobox" spellcheck="false" aria-expanded="false" aria-describedby="validation-35518774-fe56-4200-99c1-8e0f77815d5b" data-target="query-builder.input" data-action="
           input:query-builder#inputChange
           blur:query-builder#inputBlur
           keydown:query-builder#inputKeydown
@@ -1709,7 +1709,7 @@ Additional navigation options
       
         自由上网 edited this page Dec 23, 2024
         &middot;
-        1601 revisions
+        1603 revisions
       
 
     
@@ -1735,7 +1735,7 @@ YouTube频道推荐：
 神韵晚会观众反馈(2024)
 
 
-更新时间： 北京时间2024年12月23日9点00分
+更新时间： 北京时间2024年12月23日20点30分
 节点单用户限速： 1000kb/s
 如果想拥有自己的账号，可以考虑根据教程自己搭建节点，或者购买推荐的付费v2ray账号。
 注意： 禁止使用BT下载电影、滥发垃圾邮件、DDOS攻击！BT下载电影会导致服务器被投诉版权而被封！如果不能看到最新的账号信息，请清理浏览器缓存。
@@ -1756,7 +1756,7 @@ https://gitlab.com/zhifan999/fq/-/wikis/v2ray免费账号
 国内访问GitLab，建议保存
 
 
-https://d2hw6evfrtyy0y.cloudfront.net/v2ray免费账号/
+https://d2ko8ct786r5ee.cloudfront.net/v2ray免费账号/
 建议保存
 
 
