@@ -34,7 +34,7 @@ jobs:
         # 确保 myalvinpages 目录存在
         if [ -d "myalvinpages" ]; then
           # 使用 rsync 仅复制变动的文件
-          rsync -av --exclude='.git' myalvinpages/ ./ 
+          rsync -av --exclude='.git' ./myalvinpages 
         else
           echo "myalvinpages 文件夹不存在"
           exit 1
