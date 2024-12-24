@@ -10,39 +10,33 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: 检出 main 分支
+    - name: Checkout main branch
       uses: actions/checkout@v3
       with:
         ref: main
 
-    - name: 检查目录和文件
+    - name: Copy myalvinpages to gh-pages branch
       run: |
-        # 查看工作目录内容，确保 myalvinpages 文件夹存在
-        echo "当前工作目录：$(pwd)"
-        ls -la
-
-    - name: 检出 gh-pages 分支
-      run: |
-        # 检出 gh-pages 分支
+        # Install Git if not available
+        sudo apt-get install git
+        
+        # Configure Git user
+        git config --global user.name "github-actions"
+        git config --global user.email "github-actions@github.com"
+        
+        # Checkout gh-pages branch
         git fetch origin gh-pages
         git checkout gh-pages
         
-        # 确保 gh-pages 分支是最新的
-        git pull origin gh-pages
-
-    - name: 从 main 分支复制 myalvinpages 文件夹内容到 gh-pages 根目录
-      run: |
-        # 查看当前 gh-pages 分支的目录内容
-        echo "当前工作目录：$(pwd)"
-        ls -la
-
-        # 从 main 分支获取 myalvinpages 文件夹的内容并同步到 gh-pages 根目录
-        git checkout main -- myalvinpages
-
-        # 使用 rsync 仅复制变动的文件到 gh-pages 根目录
-        rsync -av --exclude='.git' myalvinpages/ ./ 
-
-    - name: 提交并推送更改到 gh-pages
-      run: |
-        # 判断是否有文件更改，如果有，则提交并推送到 gh-pages
-        git diff --quiet || (git add . && git commit -m "Deploy updates from main to gh-pages" && git push origin gh-pages)
+        # Remove all files from the gh-pages branch (if any)
+        rm -rf *
+        
+        # Copy the contents of myalvinpages folder from main branch
+        cp -r myalvinpages/* .
+        
+        # Add the changes
+        git add .
+        
+        # Commit and push the changes to gh-pages
+        git commit -m "Deploy to gh-pages"
+        git push origin gh-pages
