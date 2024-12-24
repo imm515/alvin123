@@ -1,4 +1,4 @@
-name: Update Node Links
+name: Update Debugger
 
 on:
   workflow_dispatch:  # 仅支持手动触发
