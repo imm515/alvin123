@@ -1,4 +1,4 @@
-name: Update Node Links
+name: Update Node Links and Copy Files to Gh-Pages
 
 on:
   schedule:
@@ -6,6 +6,7 @@ on:
   workflow_dispatch:  # 支持手动触发
 
 jobs:
+  # 第一个作业：Update Node Links
   update-nodes:
     runs-on: ubuntu-latest
 
@@ -67,3 +68,48 @@ jobs:
         git add dizhi1.txt dizhi2.txt dizhi3.txt ss_webpage_content.txt webpage_content.txt myalvinpages/dizhi1.html myalvinpages/dizhi2.html myalvinpages/dizhi3.html
         git commit -m "Update nodes data and HTML files"
         git push
+
+  # 第二个作业：Copy Files from Main to Gh-Pages
+  copy-files:
+    runs-on: ubuntu-latest
+    needs: update-nodes  # 确保 update-nodes 作业完成后再执行此作业
+
+    steps:
+      # Step 1: Checkout main branch
+      - name: Checkout main branch
+        uses: actions/checkout@v3
+        with:
+          ref: main  # 确保检出的是 main 分支
+
+      # Step 2: Set up Git
+      - name: Set up Git
+        run: |
+          git config user.name "GitHub Actions"
+          git config user.email "actions@github.com"
+
+      # Step 3: Checkout gh-pages branch
+      - name: Checkout gh-pages branch
+        run: |
+          git fetch origin gh-pages  # 获取远程 gh-pages 分支
+          git checkout gh-pages  # 切换到 gh-pages 分支
+
+      # Step 4: Copy files from myalvinpages to gh-pages root
+      - name: Copy files from myalvinpages to gh-pages root
+        run: |
+          # 从 main 分支的 myalvinpages 目录复制所有文件到当前目录
+          git checkout main -- myalvinpages/
+
+          # 复制文件到根目录，不删除源目录中的文件
+          cp -r myalvinpages/* .
+
+          # 如果不需要保留 myalvinpages 目录，可以选择删除
+          # rm -rf myalvinpages
+
+          # 添加这些更改到暂存区
+          git add .
+
+      # Step 5: Commit and push changes
+      - name: Commit and push changes
+        run: |
+          git commit -m "Copy files from myalvinpages to gh-pages root"
+          git push origin gh-pages  # 推送到 gh-pages 分支
