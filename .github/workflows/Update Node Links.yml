@@ -70,35 +70,28 @@ jobs:
         convert_to_html dizhi3.txt myalvinpages/dizhi3.html
         echo "TXT files converted to HTML and moved to myalvinpages/."
 
-    # 推送文件到 GitHub
-    - name: Push changes to GitHub
-      run: |
-        # 配置 Git 用户信息
-        git config --global user.name "GitHub Actions"
-        git config --global user.email "actions@github.com"
-        
-        # 添加所有更改的文件
-        git add dizhi1.txt dizhi2.txt dizhi3.txt ss_webpage_content.txt webpage_content.txt myalvinpages/dizhi1.html myalvinpages/dizhi2.html myalvinpages/dizhi3.html
-        # 提交更改
-        git commit -m "Update nodes data and HTML files"
+        # 提交转换后的 HTML 文件
+        git add myalvinpages/dizhi1.html myalvinpages/dizhi2.html myalvinpages/dizhi3.html
+        git commit -m "Deploy updated HTML files for nodes"
         git push
 
-    # 检查文件是否有变化并部署网页
-    - name: Check if files have changed and deploy
+    # 检查文件是否有变化并强制推送到 GitHub Pages
+    - name: Check if files have changed and force deploy to GitHub Pages
       run: |
         NEW_DIZHI1=$(cat dizhi1.txt)
         NEW_DIZHI2=$(cat dizhi2.txt)
         NEW_DIZHI3=$(cat dizhi3.txt)
 
+        # 如果文件有变化，强制推送并部署网页内容
         if [[ "$NEW_DIZHI1" != "$original_dizhi1" || "$NEW_DIZHI2" != "$original_dizhi2" || "$NEW_DIZHI3" != "$original_dizhi3" ]]; then
-          echo "Files have changed. Deploying updated content to GitHub Pages..."
+          echo "Files have changed. Force deploying updated content to GitHub Pages..."
 
-          # 上传文件到 GitHub Pages，只需在有更新时进行
+          # 强制上传文件到 GitHub Pages
           git add myalvinpages/
-          git commit -m "Deploy updated content to GitHub Pages"
-          git push
+          git commit -m "Force deploy updated content to GitHub Pages"
+          git push --force
 
-          echo "Deployment to GitHub Pages completed."
+          echo "Force deployment to GitHub Pages completed."
         else
           echo "No changes detected. Skipping deployment."
         fi
