@@ -79,7 +79,7 @@ jobs:
     # 如果文件发生变化，触发 deploy.yml 工作流
     - name: Trigger deploy workflow if changes detected
       if: steps.changes.outputs.diff == 'true'
-      uses: peter-evans/workflow-dispatch@v1
+      uses: peter-evans/workflow-dispatch@v2  # 使用最新版本 v2
       with:
         repository: ${{ github.repository }}
         workflow: deploy.yml
