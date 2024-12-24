@@ -67,3 +67,20 @@ jobs:
         git add dizhi1.txt dizhi2.txt dizhi3.txt ss_webpage_content.txt webpage_content.txt myalvinpages/dizhi1.html myalvinpages/dizhi2.html myalvinpages/dizhi3.html
         git commit -m "Update nodes data and HTML files"
         git push
+
+    # 检查文件是否发生变化，如果变化则触发 deploy.yml
+    - name: Check for file changes and trigger deploy workflow
+      id: changes
+      run: |
+        # 检查是否有文件发生变化
+        git diff --exit-code || echo "Changes detected"
+      continue-on-error: true
+
+    # 如果文件发生变化，触发 deploy.yml 工作流
+    - name: Trigger deploy workflow if changes detected
+      if: steps.changes.outputs.diff == 'true'
+      uses: peter-evans/workflow-dispatch@v1
+      with:
+        repository: ${{ github.repository }}
+        workflow: deploy.yml
+        ref: refs/heads/main
