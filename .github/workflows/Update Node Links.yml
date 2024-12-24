@@ -97,10 +97,6 @@ jobs:
           # Checkout 代码库
           git checkout main
 
-          # 使用 'actions/configure-pages' 设置 Pages 部署
-          mkdir -p myalvinpages
-          cp -r ./myalvinpages/* ./myalvinpages/
-
           # 上传文件到 GitHub Pages
           git add myalvinpages/
           git commit -m "Deploy updated content to GitHub Pages"
