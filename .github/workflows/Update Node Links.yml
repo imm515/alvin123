@@ -70,16 +70,6 @@ jobs:
         convert_to_html dizhi3.txt myalvinpages/dizhi3.html
         echo "TXT files converted to HTML and moved to myalvinpages/."
 
-    # 推送 HTML 文件到 Git 仓库，确保更新的 HTML 文件被立即提交
-    - name: Push HTML files to repository
-      run: |
-        git config --global user.name "GitHub Actions"
-        git config --global user.email "actions@github.com"
-        git add myalvinpages/dizhi1.html myalvinpages/dizhi2.html myalvinpages/dizhi3.html
-        git commit -m "Update HTML files"
-        git push
-        echo "HTML files pushed to repository."
-
     # 检查文件是否有变化并推送
     - name: Check if files have changed and push
       run: |
@@ -90,17 +80,33 @@ jobs:
         if [[ "$NEW_DIZHI1" != "$original_dizhi1" || "$NEW_DIZHI2" != "$original_dizhi2" || "$NEW_DIZHI3" != "$original_dizhi3" ]]; then
           echo "Files have changed. Committing and pushing changes."
 
+          # 配置 Git 用户信息
           git config --global user.name "GitHub Actions"
           git config --global user.email "actions@github.com"
+          
+          # 添加所有更改的文件
           git add dizhi1.txt dizhi2.txt dizhi3.txt ss_webpage_content.txt webpage_content.txt myalvinpages/dizhi1.html myalvinpages/dizhi2.html myalvinpages/dizhi3.html
+          
+          # 提交更改
           git commit -m "Update nodes data and HTML files"
           git push
 
-          echo "Triggering static.yml due to changes."
-          curl -X POST \
-            -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
-            -d '{"event_type": "trigger-static-action"}' \
-            https://api.github.com/repos/${{ github.repository }}/dispatches
+          # 执行部署到 GitHub Pages，直接调用部署内容
+          echo "Deploying updated content to GitHub Pages..."
+
+          # Checkout 代码库
+          git checkout main
+
+          # 使用 'actions/configure-pages' 设置 Pages 部署
+          mkdir -p myalvinpages
+          cp -r ./myalvinpages/* ./myalvinpages/
+
+          # 上传文件到 GitHub Pages
+          git add myalvinpages/
+          git commit -m "Deploy updated content to GitHub Pages"
+          git push
+
+          echo "Deployment to GitHub Pages completed."
         else
           echo "No changes detected. Skipping commit and push."
         fi
