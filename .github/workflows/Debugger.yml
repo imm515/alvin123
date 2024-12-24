@@ -1,4 +1,4 @@
-name: Update Debugger
+name: Debugger
 
 on:
   workflow_dispatch:  # 仅支持手动触发
