@@ -25,6 +25,17 @@ jobs:
         curl -s "$SS_URL" | sed 's/<[^>]*>//g' > ss_webpage_content.txt
         echo "Webpage content cleaned and saved."
 
+    # 获取原始文件内容（确保在文件更新前先保存它们）
+    - name: Get original file contents
+      id: get_original
+      run: |
+        ORIGINAL_DIZHI1=$(cat dizhi1.txt)
+        ORIGINAL_DIZHI2=$(cat dizhi2.txt)
+        ORIGINAL_DIZHI3=$(cat dizhi3.txt)
+        echo "original_dizhi1=$ORIGINAL_DIZHI1" >> $GITHUB_ENV
+        echo "original_dizhi2=$ORIGINAL_DIZHI2" >> $GITHUB_ENV
+        echo "original_dizhi3=$ORIGINAL_DIZHI3" >> $GITHUB_ENV
+
     # 从保存的完整网页内容中提取并更新节点信息
     - name: Fetch and Update Nodes from Content Files
       run: |
@@ -59,11 +70,27 @@ jobs:
         convert_to_html dizhi3.txt myalvinpages/dizhi3.html
         echo "TXT files converted to HTML and moved to myalvinpages/."
 
-    # 提交文件更新
-    - name: Commit and Push changes
+    # 检查文件是否有变化并推送
+    - name: Check if files have changed and push
       run: |
-        git config --global user.name "GitHub Actions"
-        git config --global user.email "actions@github.com"
-        git add dizhi1.txt dizhi2.txt dizhi3.txt ss_webpage_content.txt webpage_content.txt myalvinpages/dizhi1.html myalvinpages/dizhi2.html myalvinpages/dizhi3.html
-        git commit -m "Update nodes data and HTML files"
-        git push
+        NEW_DIZHI1=$(cat dizhi1.txt)
+        NEW_DIZHI2=$(cat dizhi2.txt)
+        NEW_DIZHI3=$(cat dizhi3.txt)
+
+        if [[ "$NEW_DIZHI1" != "$original_dizhi1" || "$NEW_DIZHI2" != "$original_dizhi2" || "$NEW_DIZHI3" != "$original_dizhi3" ]]; then
+          echo "Files have changed. Committing and pushing changes."
+
+          git config --global user.name "GitHub Actions"
+          git config --global user.email "actions@github.com"
+          git add dizhi1.txt dizhi2.txt dizhi3.txt ss_webpage_content.txt webpage_content.txt myalvinpages/dizhi1.html myalvinpages/dizhi2.html myalvinpages/dizhi3.html
+          git commit -m "Update nodes data and HTML files"
+          git push
+
+          echo "Triggering static.yml due to changes."
+          curl -X POST \
+            -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
+            -d '{"event_type": "trigger-static-action"}' \
+            https://api.github.com/repos/${{ github.repository }}/dispatches
+        else
+          echo "No changes detected. Skipping commit and push."
+        fi
