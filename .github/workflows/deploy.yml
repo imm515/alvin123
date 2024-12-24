@@ -1,9 +1,10 @@
 name: Copy Files from Main to Gh-Pages
 
 on:
-  push:
-    branches:
-      - main  # 每次推送到 main 分支时触发该工作流
+  # push:
+  #   branches:
+  #     - main  # 每次推送到 main 分支时触发该工作流
+  workflow_dispatch:  # 支持手动触发
 
 jobs:
   copy_files:
