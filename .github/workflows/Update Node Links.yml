@@ -111,5 +111,5 @@ jobs:
       # Step 5: Commit and push changes
       - name: Commit and push changes
         run: |
-          git commit -m "Copy files from myalvinpages to gh-pages root"
+          git diff --quiet || git commit -m "Copy files from myalvinpages to gh-pages root"  # 如果有更改，则提交
           git push origin gh-pages  # 推送到 gh-pages 分支
