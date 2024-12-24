@@ -109,7 +109,17 @@ jobs:
           git add .
 
       # Step 5: Commit and push changes
+      # - name: Commit and push changes
+        # run: |
+          # git diff --quiet || git commit -m "Copy files from myalvinpages to gh-pages root"  # 如果有更改，则提交
+          # git push origin gh-pages  # 推送到 gh-pages 分支
+
+
+      # Step 5: Commit and push changes
       - name: Commit and push changes
         run: |
-          git diff --quiet || git commit -m "Copy files from myalvinpages to gh-pages root"  # 如果有更改，则提交
+          # 检查暂存区与最新提交（HEAD）之间的差异，如果有差异则提交
+          git diff --cached --quiet || git commit -m "Copy files from myalvinpages to gh-pages root"  # 如果有更改，则提交
+          
+          # 推送更改到 gh-pages 分支
           git push origin gh-pages  # 推送到 gh-pages 分支
