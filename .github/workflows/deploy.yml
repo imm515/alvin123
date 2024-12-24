@@ -1,0 +1,36 @@
+name: Deploy to gh-pages
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: 检出 main 分支
+      uses: actions/checkout@v3
+      with:
+        ref: main
+
+    - name: 检出 gh-pages 分支
+      run: |
+        # 检出 gh-pages 分支
+        git fetch origin gh-pages
+        git checkout gh-pages
+        
+        # 确保 gh-pages 分支是最新的
+        git pull origin gh-pages
+
+    - name: 只复制变动的文件到 gh-pages
+      run: |
+        # 使用 rsync 仅复制变动的文件
+        # 排除 .git 目录，避免不必要的复制
+        rsync -av --exclude='.git' myalvinpages/ ./ 
+
+    - name: 提交并推送更改到 gh-pages
+      run: |
+        # 判断是否有文件更改，如果有，则提交并推送到 gh-pages
+        git diff --quiet || (git add . && git commit -m "Deploy updates to gh-pages" && git push origin gh-pages)
