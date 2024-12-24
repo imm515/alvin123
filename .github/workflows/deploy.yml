@@ -3,28 +3,26 @@ name: Deploy to gh-pages
 on:
   push:
     branches:
-      - main  # 触发此 workflow 的分支为 main
+      - main
 
 jobs:
   deploy:
-    runs-on: ubuntu-latest  # 使用最新版本的 Ubuntu 操作系统
+    runs-on: ubuntu-latest
 
     steps:
     - name: Checkout main branch
-      uses: actions/checkout@v3  # 拉取 main 分支的代码
+      uses: actions/checkout@v3
       with:
-        ref: main  # 指定要拉取的分支是 main
+        ref: main  # 拉取 main 分支的代码
 
     - name: List files in main branch
-      run: ls -R  # 列出 main 分支中所有的文件，帮助确认文件位置
+      run: ls -R  # 确认 main 分支的文件和 myalvinpages 文件夹的位置
 
     - name: Checkout gh-pages branch
       run: |
         # 获取远程 gh-pages 分支的最新更新
-        git fetch origin gh-pages  # 从远程仓库获取 gh-pages 分支的最新内容
-
-        # 切换到 gh-pages 分支
-        git checkout gh-pages  # 如果本地没有该分支，git 会从远程创建并切换到 gh-pages
+        git fetch origin gh-pages  # 获取远程仓库的 gh-pages 分支内容
+        git checkout gh-pages      # 切换到 gh-pages 分支
 
     - name: Remove all files from gh-pages branch
       run: |
@@ -33,8 +31,11 @@ jobs:
 
     - name: Copy files from myalvinpages to gh-pages branch
       run: |
-        # 将 main 分支中的 myalvinpages 文件夹里的所有文件复制到 gh-pages 分支的根目录
-        cp -r myalvinpages/* .  # 复制 myalvinpages 文件夹中的所有文件到当前目录（gh-pages 根目录）
+        # 切换回 main 分支并获取 myalvinpages 文件夹的内容
+        git checkout main -- myalvinpages  # 从 main 分支获取 myalvinpages 文件夹（仅获取该文件夹，不切换分支）
+        
+        # 复制 myalvinpages 文件夹中的所有文件到当前目录（gh-pages 根目录）
+        cp -r myalvinpages/* .  # 复制 myalvinpages 文件夹中的所有文件到 gh-pages 根目录
 
     - name: Commit and push changes to gh-pages
       run: |
