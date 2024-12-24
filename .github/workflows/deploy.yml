@@ -15,6 +15,11 @@ jobs:
       with:
         ref: main
 
+    - name: 检查目录和文件
+      run: |
+        # 查看工作目录内容，确保 myalvinpages 文件夹存在
+        ls -la
+
     - name: 检出 gh-pages 分支
       run: |
         # 检出 gh-pages 分支
@@ -26,9 +31,14 @@ jobs:
 
     - name: 只复制变动的文件到 gh-pages
       run: |
-        # 使用 rsync 仅复制变动的文件
-        # 排除 .git 目录，避免不必要的复制
-        rsync -av --exclude='.git' myalvinpages/ ./ 
+        # 确保 myalvinpages 目录存在
+        if [ -d "myalvinpages" ]; then
+          # 使用 rsync 仅复制变动的文件
+          rsync -av --exclude='.git' myalvinpages/ ./ 
+        else
+          echo "myalvinpages 文件夹不存在"
+          exit 1
+        fi
 
     - name: 提交并推送更改到 gh-pages
       run: |
