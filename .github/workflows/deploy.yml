@@ -30,22 +30,19 @@ jobs:
         # 确保 gh-pages 分支是最新的
         git pull origin gh-pages
 
-    - name: 只复制变动的文件到 gh-pages
+    - name: 从 main 分支复制 myalvinpages 文件夹内容到 gh-pages 根目录
       run: |
-        # 输出当前工作目录，确认文件夹位置
+        # 查看当前 gh-pages 分支的目录内容
         echo "当前工作目录：$(pwd)"
-        
-        # 检查 myalvinpages 目录是否存在
-        if [ -d "./myalvinpages" ]; then
-          echo "发现 myalvinpages 文件夹，开始同步文件"
-          # 使用 rsync 仅复制变动的文件
-          rsync -av --exclude='.git' ./myalvinpages/ ./ 
-        else
-          echo "myalvinpages 文件夹不存在"
-          exit 1
-        fi
+        ls -la
+
+        # 从 main 分支获取 myalvinpages 文件夹的内容并同步到 gh-pages 根目录
+        git checkout main -- myalvinpages
+
+        # 使用 rsync 仅复制变动的文件到 gh-pages 根目录
+        rsync -av --exclude='.git' myalvinpages/ ./ 
 
     - name: 提交并推送更改到 gh-pages
       run: |
         # 判断是否有文件更改，如果有，则提交并推送到 gh-pages
-        git diff --quiet || (git add . && git commit -m "Deploy updates to gh-pages" && git push origin gh-pages)
+        git diff --quiet || (git add . && git commit -m "Deploy updates from main to gh-pages" && git push origin gh-pages)
