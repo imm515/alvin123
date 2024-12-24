@@ -70,6 +70,16 @@ jobs:
         convert_to_html dizhi3.txt myalvinpages/dizhi3.html
         echo "TXT files converted to HTML and moved to myalvinpages/."
 
+    # 推送 HTML 文件到 Git 仓库，确保更新的 HTML 文件被立即提交
+    - name: Push HTML files to repository
+      run: |
+        git config --global user.name "GitHub Actions"
+        git config --global user.email "actions@github.com"
+        git add myalvinpages/dizhi1.html myalvinpages/dizhi2.html myalvinpages/dizhi3.html
+        git commit -m "Update HTML files"
+        git push
+        echo "HTML files pushed to repository."
+
     # 检查文件是否有变化并推送
     - name: Check if files have changed and push
       run: |
