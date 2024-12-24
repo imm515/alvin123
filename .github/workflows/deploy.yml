@@ -3,40 +3,50 @@ name: Deploy to gh-pages
 on:
   push:
     branches:
-      - main
+      - main  # 触发此 workflow 的分支为 main
 
 jobs:
   deploy:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-latest  # 使用最新版本的 Ubuntu 操作系统
 
     steps:
     - name: Checkout main branch
-      uses: actions/checkout@v3
+      uses: actions/checkout@v3  # 拉取 main 分支的代码
       with:
-        ref: main
+        ref: main  # 指定要拉取的分支是 main
 
-    - name: Copy myalvinpages to gh-pages branch
+    - name: List files in main branch
+      run: ls -R  # 列出 main 分支中所有的文件，帮助确认文件位置
+
+    - name: Checkout gh-pages branch
       run: |
-        # Install Git if not available
-        sudo apt-get install git
+        # 获取远程 gh-pages 分支的最新更新
+        git fetch origin gh-pages  # 从远程仓库获取 gh-pages 分支的最新内容
+
+        # 切换到 gh-pages 分支
+        git checkout gh-pages  # 如果本地没有该分支，git 会从远程创建并切换到 gh-pages
+
+    - name: Remove all files from gh-pages branch
+      run: |
+        # 删除 gh-pages 分支上的所有文件（如果有的话）
+        rm -rf *  # 清空 gh-pages 分支的当前目录下的所有文件，为部署做准备
+
+    - name: Copy files from myalvinpages to gh-pages branch
+      run: |
+        # 将 main 分支中的 myalvinpages 文件夹里的所有文件复制到 gh-pages 分支的根目录
+        cp -r myalvinpages/* .  # 复制 myalvinpages 文件夹中的所有文件到当前目录（gh-pages 根目录）
+
+    - name: Commit and push changes to gh-pages
+      run: |
+        # 配置 Git 用户信息，确保提交时不会出错
+        git config --global user.name "github-actions"  # 设置 Git 用户名
+        git config --global user.email "github-actions@github.com"  # 设置 Git 用户邮箱
         
-        # Configure Git user
-        git config --global user.name "github-actions"
-        git config --global user.email "github-actions@github.com"
-        
-        # Checkout gh-pages branch
-        git fetch origin gh-pages
-        git checkout gh-pages
-        
-        # Remove all files from the gh-pages branch (if any)
-        rm -rf *
-        
-        # Copy the contents of myalvinpages folder from main branch
-        cp -r myalvinpages/* .
-        
-        # Add the changes
-        git add .
-        
-        # Commit and push the changes to gh-pages
-        git commit -m "Deploy to gh-pages"
-        git push origin gh-pages
+        # 将更改添加到 Git 索引
+        git add .  # 添加所有更改的文件
+
+        # 提交更改
+        git commit -m "Deploy to gh-pages"  # 提交到 gh-pages 分支
+
+        # 推送更改到远程仓库的 gh-pages 分支
+        git push origin gh-pages  # 将提交推送到远程仓库的 gh-pages 分支
