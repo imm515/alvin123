@@ -108,8 +108,127 @@ jobs:
           # 添加这些更改到暂存区
           git add .
 
+
+在工作流中，如果某个作业没有任何更改需要提交（即 "nothing to commit"），会导致 git commit 返回一个错误（退出码 1）。为了避免这种情况并让工作流跳过这些没有变更的步骤，您可以在提交之前检查工作树是否有更改。
+
+可以通过在提交之前使用 git diff 检查是否有更改，然后根据检查结果决定是否继续提交和推送。
+
+以下是修改后的代码，增加了检查文件变更的步骤：
+
+yaml
+Copy code
+name: Update Node Links and Copy Files to Gh-Pages
+
+on:
+  schedule:
+    - cron: '0 */8 * * *'  # 每8小时自动运行一次
+  workflow_dispatch:  # 支持手动触发
+
+jobs:
+  # 第一个作业：Update Node Links
+  update-nodes:
+    runs-on: ubuntu-latest
+
+    steps:
+    # 检出代码库
+    - name: Checkout repository
+      uses: actions/checkout@v3
+
+    # 获取网页内容并保存为文件，去掉 HTML 标签
+    - name: Fetch and Clean Webpage Content
+      run: |
+        VMESS_URL="https://github.com/Alvin9999/new-pac/wiki/v2ray%E5%85%8D%E8%B4%B9%E8%B4%A6%E5%8F%B7"
+        SS_URL="https://github.com/Alvin9999/new-pac/wiki/ss%E5%85%8D%E8%B4%B9%E8%B4%A6%E5%8F%B7"
+        
+        # 获取网页内容，去掉 HTML 标签，并保存为纯文本文件
+        curl -s "$VMESS_URL" | sed 's/<[^>]*>//g' > webpage_content.txt
+        curl -s "$SS_URL" | sed 's/<[^>]*>//g' > ss_webpage_content.txt
+        echo "Webpage content cleaned and saved."
+
+    # 从保存的完整网页内容中提取并更新节点信息
+    - name: Fetch and Update Nodes from Content Files
+      run: |
+        VMESS_NODES=$(grep -oP '.*vmess://\S+' webpage_content.txt | sed 's/^[[:space:]]*//;s/[[:space:]]*$//;s/&amp;/\&/g' | sort -u)
+        VLESS_NODES=$(grep -oP '.*vless://\S+' webpage_content.txt | sed 's/^[[:space:]]*//;s/[[:space:]]*$//;s/&amp;/\&/g' | sort -u)
+        SS_NODES=$(grep -oP '.*ss://\S+' ss_webpage_content.txt | sed 's/^[[:space:]]*//;s/[[:space:]]*$//;s/&amp;/\&/g' | sort -u)
+
+        # 保存提取的节点链接到文件
+        echo "$VMESS_NODES" > dizhi1.txt
+        echo "$VLESS_NODES" > dizhi2.txt
+        echo "$SS_NODES" > dizhi3.txt
+        echo "Node data saved to files."
+
+    # 将 .txt 文件转换为 .html 文件，并粘贴到 myalvinpages 文件夹中
+    - name: Convert TXT files to HTML and move to myalvinpages
+      run: |
+        # 确保 myalvinpages 目录存在
+        mkdir -p myalvinpages
+
+        # 创建一个 HTML 文件转换模板
+        convert_to_html() {
+          input_file=$1
+          output_file=$2
+          echo "<html><body><pre>" > "$output_file"
+          cat "$input_file" >> "$output_file"
+          echo "</pre></body></html>" >> "$output_file"
+        }
+
+        # 转换文件并粘贴到 myalvinpages 文件夹中
+        convert_to_html dizhi1.txt myalvinpages/dizhi1.html
+        convert_to_html dizhi2.txt myalvinpages/dizhi2.html
+        convert_to_html dizhi3.txt myalvinpages/dizhi3.html
+        echo "TXT files converted to HTML and moved to myalvinpages/."
+
+    # 提交文件更新
+    - name: Commit and Push changes
+      run: |
+        git config --global user.name "GitHub Actions"
+        git config --global user.email "actions@github.com"
+        git add dizhi1.txt dizhi2.txt dizhi3.txt ss_webpage_content.txt webpage_content.txt myalvinpages/dizhi1.html myalvinpages/dizhi2.html myalvinpages/dizhi3.html
+        git diff --quiet || git commit -m "Update nodes data and HTML files"  # 如果有更改，则提交
+        git push
+
+  # 第二个作业：Copy Files from Main to Gh-Pages
+  copy-files:
+    runs-on: ubuntu-latest
+    needs: update-nodes  # 确保 update-nodes 作业完成后再执行此作业
+
+    steps:
+      # Step 1: Checkout main branch
+      - name: Checkout main branch
+        uses: actions/checkout@v3
+        with:
+          ref: main  # 确保检出的是 main 分支
+
+      # Step 2: Set up Git
+      - name: Set up Git
+        run: |
+          git config user.name "GitHub Actions"
+          git config user.email "actions@github.com"
+
+      # Step 3: Checkout gh-pages branch
+      - name: Checkout gh-pages branch
+        run: |
+          git fetch origin gh-pages  # 获取远程 gh-pages 分支
+          git checkout gh-pages  # 切换到 gh-pages 分支
+
+      # Step 4: Copy files from myalvinpages to gh-pages root
+      - name: Copy files from myalvinpages to gh-pages root
+        run: |
+          # 从 main 分支的 myalvinpages 目录复制所有文件到当前目录
+          git checkout main -- myalvinpages/
+
+          # 复制文件到根目录，不删除源目录中的文件
+          cp -r myalvinpages/* .
+
+          # 如果不需要保留 myalvinpages 目录，可以选择删除
+          # rm -rf myalvinpages
+
+          # 添加这些更改到暂存区
+          git add .
+
       # Step 5: Commit and push changes
       - name: Commit and push changes
         run: |
-          git commit -m "Copy files from myalvinpages to gh-pages root"
+          git diff --quiet || git commit -m "Copy files from myalvinpages to gh-pages root"  # 如果有更改，则提交
           git push origin gh-pages  # 推送到 gh-pages 分支
