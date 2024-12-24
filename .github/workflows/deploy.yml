@@ -38,7 +38,7 @@ jobs:
           cp -r myalvinpages/* .
 
           # 如果不需要保留 myalvinpages 目录，可以选择删除
-          rm -rf myalvinpages
+          # rm -rf myalvinpages
 
           # 添加这些更改到暂存区
           git add .
