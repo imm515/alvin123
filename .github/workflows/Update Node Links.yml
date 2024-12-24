@@ -65,35 +65,5 @@ jobs:
         git config --global user.name "GitHub Actions"
         git config --global user.email "actions@github.com"
         git add dizhi1.txt dizhi2.txt dizhi3.txt ss_webpage_content.txt webpage_content.txt myalvinpages/dizhi1.html myalvinpages/dizhi2.html myalvinpages/dizhi3.html
-        git diff --quiet || git commit -m "Update nodes data and HTML files"
+        git commit -m "Update nodes data and HTML files"
         git push
-
-    # 检查文件是否发生变化，如果有变化则执行 deploy 部分
-    - name: Check for file changes and deploy if needed
-      run: |
-        # 检查是否有文件发生变化
-        git diff --exit-code || echo "Changes detected"
-        if [ $? -eq 1 ]; then
-          # Step 1: Checkout main branch
-          git fetch origin main
-          git checkout main
-
-          # Step 2: Set up Git
-          git config user.name "GitHub Actions"
-          git config user.email "actions@github.com"
-
-          # Step 3: Checkout gh-pages branch
-          git fetch origin gh-pages
-          git checkout gh-pages
-
-          # Step 4: Copy files from myalvinpages to gh-pages root
-          git checkout main -- myalvinpages/
-          cp -r myalvinpages/* .
-
-          # Step 5: Commit and push changes
-          git add .
-          git commit -m "Copy files from myalvinpages to gh-pages root"
-          git push origin gh-pages
-        else
-          echo "No changes detected, skipping deploy."
-        fi
