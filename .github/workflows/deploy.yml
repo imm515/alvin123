@@ -1,53 +1,50 @@
-name: Deploy to gh-pages
+name: Copy Files from Main to Gh-Pages
 
 on:
   push:
     branches:
-      - main
+      - main  # 每次推送到 main 分支时触发该工作流
 
 jobs:
-  deploy:
-    runs-on: ubuntu-latest
+  copy_files:
+    runs-on: ubuntu-latest  # 在最新的 Ubuntu 环境中运行
 
     steps:
-    - name: Checkout main branch
-      uses: actions/checkout@v3
-      with:
-        ref: main  # 拉取 main 分支的代码
+      # Step 1: Checkout main branch
+      - name: Checkout main branch
+        uses: actions/checkout@v3
+        with:
+          ref: main  # 确保检出的是 main 分支
 
-    - name: List files in main branch
-      run: ls -R  # 确认 main 分支的文件和 myalvinpages 文件夹的位置
+      # Step 2: Set up Git
+      - name: Set up Git
+        run: |
+          git config user.name "GitHub Actions"
+          git config user.email "actions@github.com"
 
-    - name: Checkout gh-pages branch
-      run: |
-        # 获取远程 gh-pages 分支的最新更新
-        git fetch origin gh-pages  # 获取远程仓库的 gh-pages 分支内容
-        git checkout gh-pages      # 切换到 gh-pages 分支
+      # Step 3: Checkout gh-pages branch
+      - name: Checkout gh-pages branch
+        run: |
+          git fetch origin gh-pages  # 获取远程 gh-pages 分支
+          git checkout gh-pages  # 切换到 gh-pages 分支
 
-    - name: Remove all files from gh-pages branch
-      run: |
-        # 删除 gh-pages 分支上的所有文件（如果有的话）
-        rm -rf *  # 清空 gh-pages 分支的当前目录下的所有文件，为部署做准备
+      # Step 4: Copy files from myalvinpages to gh-pages root
+      - name: Copy files from myalvinpages to gh-pages root
+        run: |
+          # 从 main 分支的 myalvinpages 目录复制所有文件到当前目录
+          git checkout main -- myalvinpages/
 
-    - name: Copy files from myalvinpages to gh-pages branch
-      run: |
-        # 切换回 main 分支并获取 myalvinpages 文件夹的内容
-        git checkout main -- myalvinpages  # 从 main 分支获取 myalvinpages 文件夹（仅获取该文件夹，不切换分支）
-        
-        # 复制 myalvinpages 文件夹中的所有文件到当前目录（gh-pages 根目录）
-        cp -r myalvinpages/* .  # 复制 myalvinpages 文件夹中的所有文件到 gh-pages 根目录
+          # 复制文件到根目录，不删除源目录中的文件
+          cp -r myalvinpages/* .
 
-    - name: Commit and push changes to gh-pages
-      run: |
-        # 配置 Git 用户信息，确保提交时不会出错
-        git config --global user.name "github-actions"  # 设置 Git 用户名
-        git config --global user.email "github-actions@github.com"  # 设置 Git 用户邮箱
-        
-        # 将更改添加到 Git 索引
-        git add .  # 添加所有更改的文件
+          # 如果不需要保留 myalvinpages 目录，可以选择删除
+          rm -rf myalvinpages
 
-        # 提交更改
-        git commit -m "Deploy to gh-pages"  # 提交到 gh-pages 分支
+          # 添加这些更改到暂存区
+          git add .
 
-        # 推送更改到远程仓库的 gh-pages 分支
-        git push origin gh-pages  # 将提交推送到远程仓库的 gh-pages 分支
+      # Step 5: Commit and push changes
+      - name: Commit and push changes
+        run: |
+          git commit -m "Copy files from myalvinpages to gh-pages root"
+          git push origin gh-pages  # 推送到 gh-pages 分支
