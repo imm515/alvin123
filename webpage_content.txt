@@ -887,7 +887,7 @@
           >
           
             
-            <input id="query-builder-test" name="query-builder-test" value="" autocomplete="off" type="text" role="combobox" spellcheck="false" aria-expanded="false" aria-describedby="validation-f4cbb79e-9ac2-429f-a4fe-3a8af9bf0b5f" data-target="query-builder.input" data-action="
+            <input id="query-builder-test" name="query-builder-test" value="" autocomplete="off" type="text" role="combobox" spellcheck="false" aria-expanded="false" aria-describedby="validation-21783f2c-da7b-4ded-96f4-a000a85bec97" data-target="query-builder.input" data-action="
           input:query-builder#inputChange
           blur:query-builder#inputBlur
           keydown:query-builder#inputKeydown
@@ -1453,7 +1453,7 @@ Fork
     
 
         Issues
-          407
+          408
 
 
     
