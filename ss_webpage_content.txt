@@ -887,7 +887,7 @@
           >
           
             
-            <input id="query-builder-test" name="query-builder-test" value="" autocomplete="off" type="text" role="combobox" spellcheck="false" aria-expanded="false" aria-describedby="validation-56c36420-aabb-438e-a29a-1ece51419d65" data-target="query-builder.input" data-action="
+            <input id="query-builder-test" name="query-builder-test" value="" autocomplete="off" type="text" role="combobox" spellcheck="false" aria-expanded="false" aria-describedby="validation-e498e6e8-fb64-43aa-a789-394e59000c77" data-target="query-builder.input" data-action="
           input:query-builder#inputChange
           blur:query-builder#inputBlur
           keydown:query-builder#inputKeydown
@@ -1707,9 +1707,9 @@ Additional navigation options
     
 
       
-        自由上网 edited this page Dec 27, 2024
+        自由上网 edited this page Jan 3, 2025
         &middot;
-        3603 revisions
+        3604 revisions
       
 
     
@@ -1735,7 +1735,7 @@ YouTube频道推荐：
 神韵晚会观众反馈(2024)
 
 
-更新时间： 北京时间2024年12月23日20点30分
+更新时间： 北京时间2025年1月3日22点30分
 节点单用户限速： 1000kb/s
 如果想拥有自己的账号，可以考虑根据教程自己搭建节点，或者购买推荐的付费ss账号。
 注意： 禁止使用BT下载电影、滥发垃圾邮件、DDOS攻击！BT下载电影会导致服务器被投诉版权而被封！如果不能看到最新的账号信息，请清理浏览器缓存。
@@ -1814,7 +1814,7 @@ SS节点：
 
 
 节点
-185.22.155.228
+108.181.3.66
 23456
 dongtaiwang.com
 aes-256-gcm
@@ -1822,7 +1822,7 @@ aes-256-gcm
 
 
 SS链接：
-ss://YWVzLTI1Ni1nY206ZG9uZ3RhaXdhbmcuY29t@185.22.155.228:23456#dongtaiwang.com%E8%8A%82%E7%82%B9
+ss://YWVzLTI1Ni1nY206ZG9uZ3RhaXdhbmcuY29t@108.181.3.66:23456#dongtaiwang.com%E8%8A%82%E7%82%B9
 如果想搭建自己的ss/ssr节点，参考自建ss/ssr服务器教程。或者考虑付费ss账号 或搬瓦工付费ss/ssr账号-Just My Socks。
 Windows电脑系统的网友可以下载最新的自由门和无界，作为备用。操作简单，一键启动。
 无界 21.32版：
