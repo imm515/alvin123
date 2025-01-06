@@ -887,7 +887,7 @@
           >
           
             
-            <input id="query-builder-test" name="query-builder-test" value="" autocomplete="off" type="text" role="combobox" spellcheck="false" aria-expanded="false" aria-describedby="validation-d99c3fd7-c435-4400-9850-6870e3411eec" data-target="query-builder.input" data-action="
+            <input id="query-builder-test" name="query-builder-test" value="" autocomplete="off" type="text" role="combobox" spellcheck="false" aria-expanded="false" aria-describedby="validation-b987486f-3e63-4451-bb5b-6bbc5d0fe882" data-target="query-builder.input" data-action="
           input:query-builder#inputChange
           blur:query-builder#inputBlur
           keydown:query-builder#inputKeydown
@@ -1707,9 +1707,9 @@ Additional navigation options
     
 
       
-        自由上网 edited this page Jan 5, 2025
+        自由上网 edited this page Jan 6, 2025
         &middot;
-        3610 revisions
+        3611 revisions
       
 
     
@@ -1735,7 +1735,7 @@ YouTube频道推荐：
 神韵晚会观众反馈(2024)
 
 
-更新时间： 北京时间2025年1月5日21点30分
+更新时间： 北京时间2025年1月6日10点30分
 节点单用户限速： 1000kb/s
 如果想拥有自己的账号，可以考虑根据教程自己搭建节点，或者购买推荐的付费ss账号。
 注意： 禁止使用BT下载电影、滥发垃圾邮件、DDOS攻击！BT下载电影会导致服务器被投诉版权而被封！如果不能看到最新的账号信息，请清理浏览器缓存。
@@ -1788,7 +1788,7 @@ plain
 
 节点2
 ssr2.4465779.xyz
-22222
+45678
 dongtaiwang.com
 none
 auth_chain_a
@@ -1798,7 +1798,7 @@ tls1.2_ticket_auth
 
 SSR节点链接：
 ssr://ZG9uZ3RhaXdhbmc1LmNvbTozMDAzMzphdXRoX2NoYWluX2E6bm9uZTpwbGFpbjpaRzl1WjNSaGFYZGhibWN1WTI5dC8_b2Jmc3BhcmFtPSZyZW1hcmtzPVpHOXVaM1JoYVhkaGJtY3VZMjl0NXJTYjVwMko1NS0yTWcmdW90PTE
-ssr://c3NyMi40NDY1Nzc5Lnh5ejoyMjIyMjphdXRoX2NoYWluX2E6bm9uZTp0bHMxLjJfdGlja2V0X2F1dGg6Wkc5dVozUmhhWGRoYm1jdVkyOXQvP29iZnNwYXJhbT0mcmVtYXJrcz1aRzl1WjNSaGFYZGhibWN1WTI5dDVyU2I1cDJKNTUtMk1nJnVvdD0x
+ssr://c3NyMi40NDY1Nzc5Lnh5ejo0NTY3ODphdXRoX2NoYWluX2E6bm9uZTp0bHMxLjJfdGlja2V0X2F1dGg6Wkc5dVozUmhhWGRoYm1jdVkyOXQvP29iZnNwYXJhbT0mcmVtYXJrcz1aRzl1WjNSaGFYZGhibWN1WTI5dDVyU2I1cDJKNTUtMk1nJnVvdD0x
 
 SS节点：
 
