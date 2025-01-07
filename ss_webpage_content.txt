@@ -879,7 +879,7 @@
           >
           
             
-            <input id="query-builder-test" name="query-builder-test" value="" autocomplete="off" type="text" role="combobox" spellcheck="false" aria-expanded="false" aria-describedby="validation-d0e80e96-7e39-4edb-9700-d807a8608780" data-target="query-builder.input" data-action="
+            <input id="query-builder-test" name="query-builder-test" value="" autocomplete="off" type="text" role="combobox" spellcheck="false" aria-expanded="false" aria-describedby="validation-ef33a51f-c1b6-4064-84fd-bc7f33e55c48" data-target="query-builder.input" data-action="
           input:query-builder#inputChange
           blur:query-builder#inputBlur
           keydown:query-builder#inputKeydown
@@ -1699,9 +1699,9 @@ Additional navigation options
     
 
       
-        自由上网 edited this page Jan 6, 2025
+        自由上网 edited this page Jan 7, 2025
         &middot;
-        3612 revisions
+        3614 revisions
       
 
     
@@ -1727,7 +1727,7 @@ YouTube频道推荐：
 神韵晚会观众反馈(2024)
 
 
-更新时间： 北京时间2025年1月6日10点30分
+更新时间： 北京时间2025年1月8日0点30分
 节点单用户限速： 1000kb/s
 如果想拥有自己的账号，可以考虑根据教程自己搭建节点，或者购买推荐的付费ss账号。
 注意： 禁止使用BT下载电影、滥发垃圾邮件、DDOS攻击！BT下载电影会导致服务器被投诉版权而被封！如果不能看到最新的账号信息，请清理浏览器缓存。
@@ -1740,7 +1740,7 @@ YouTube频道推荐：
 
 
 
-https://dgithub.xyz/Alvin9999/new-pac/wiki/ss免费账号
+https://4git.xyz/Alvin9999/new-pac/wiki/ss免费账号
 国内访问GitHub镜像，建议保存
 
 
@@ -1811,14 +1811,14 @@ SS节点：
 
 节点
 109.104.154.146
-34567
-github.com/Alvin9999
+33333
+dongtaiwang.com
 aes-256-gcm
 
 
 
 SS链接：
-ss://YWVzLTI1Ni1nY206Z2l0aHViLmNvbS9BbHZpbjk5OTk=@109.104.154.146:34567#github.com%2FAlvin9999%E8%8A%82%E7%82%B92
+ss://YWVzLTI1Ni1nY206ZG9uZ3RhaXdhbmcuY29t@109.104.154.146:33333#dongtaiwang.com%E8%8A%82%E7%82%B9
 如果想搭建自己的ss/ssr节点，参考自建ss/ssr服务器教程。或者考虑付费ss账号 或搬瓦工付费ss/ssr账号-Just My Socks。
 Windows电脑系统的网友可以下载最新的自由门和无界，作为备用。操作简单，一键启动。
 无界 21.32版：
