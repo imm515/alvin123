@@ -879,7 +879,7 @@
           >
           
             
-            <input id="query-builder-test" name="query-builder-test" value="" autocomplete="off" type="text" role="combobox" spellcheck="false" aria-expanded="false" aria-describedby="validation-ef33a51f-c1b6-4064-84fd-bc7f33e55c48" data-target="query-builder.input" data-action="
+            <input id="query-builder-test" name="query-builder-test" value="" autocomplete="off" type="text" role="combobox" spellcheck="false" aria-expanded="false" aria-describedby="validation-213e6a45-6ca4-4a58-97d3-12d0152d1445" data-target="query-builder.input" data-action="
           input:query-builder#inputChange
           blur:query-builder#inputBlur
           keydown:query-builder#inputKeydown
@@ -1701,7 +1701,7 @@ Additional navigation options
       
         自由上网 edited this page Jan 7, 2025
         &middot;
-        3614 revisions
+        3616 revisions
       
 
     
@@ -1740,7 +1740,7 @@ YouTube频道推荐：
 
 
 
-https://4git.xyz/Alvin9999/new-pac/wiki/ss免费账号
+https://dgithub.xyz/Alvin9999/new-pac/wiki/ss免费账号
 国内访问GitHub镜像，建议保存
 
 
@@ -1810,15 +1810,15 @@ SS节点：
 
 
 节点
-109.104.154.146
-33333
+185.22.155.228
+23456
 dongtaiwang.com
 aes-256-gcm
 
 
 
 SS链接：
-ss://YWVzLTI1Ni1nY206ZG9uZ3RhaXdhbmcuY29t@109.104.154.146:33333#dongtaiwang.com%E8%8A%82%E7%82%B9
+ss://YWVzLTI1Ni1nY206ZG9uZ3RhaXdhbmcuY29t@185.22.155.228:23456#dongtaiwang.com%E8%8A%82%E7%82%B9
 如果想搭建自己的ss/ssr节点，参考自建ss/ssr服务器教程。或者考虑付费ss账号 或搬瓦工付费ss/ssr账号-Just My Socks。
 Windows电脑系统的网友可以下载最新的自由门和无界，作为备用。操作简单，一键启动。
 无界 21.32版：
