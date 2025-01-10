@@ -39,7 +39,7 @@
   
 
 
-  {"locale":"en","featureFlags":["alive_longer_retries","bypass_copilot_indexing_quota","copilot_new_references_ui","copilot_beta_features_opt_in","copilot_chat_retry_on_error","copilot_chat_persist_submitted_input","copilot_conversational_ux_history_refs","copilot_editor_upsells","copilot_free_limited_user","copilot_implicit_context","copilot_no_floating_button","copilot_smell_icebreaker_ux","experimentation_azure_variant_endpoint","failbot_handle_non_errors","geojson_azure_maps","ghost_pilot_confidence_truncation_25","ghost_pilot_confidence_truncation_40","hovercard_accessibility","issues_react_remove_placeholders","issues_react_blur_item_picker_on_close","marketing_pages_search_explore_provider","react_keyboard_shortcuts_dialog","remove_child_patch","report_hydro_web_vitals","sample_network_conn_type","site_metered_billing_update","site_copilot_free","lifecycle_label_name_updates"]}
+  {"locale":"en","featureFlags":["alive_longer_retries","bypass_copilot_indexing_quota","copilot_new_references_ui","copilot_beta_features_opt_in","copilot_chat_retry_on_error","copilot_chat_persist_submitted_input","copilot_conversational_ux_history_refs","copilot_editor_upsells","copilot_free_limited_user","copilot_implicit_context","copilot_no_floating_button","copilot_smell_icebreaker_ux","experimentation_azure_variant_endpoint","failbot_handle_non_errors","geojson_azure_maps","ghost_pilot_confidence_truncation_25","ghost_pilot_confidence_truncation_40","hovercard_accessibility","issues_react_remove_placeholders","issues_react_blur_item_picker_on_close","marketing_pages_search_explore_provider","react_keyboard_shortcuts_dialog","remove_child_patch","sample_network_conn_type","site_metered_billing_update","site_copilot_free","lifecycle_label_name_updates"]}
 
 
 
@@ -879,7 +879,7 @@
           >
           
             
-            <input id="query-builder-test" name="query-builder-test" value="" autocomplete="off" type="text" role="combobox" spellcheck="false" aria-expanded="false" aria-describedby="validation-c9554ad9-7884-4874-9b18-85451f0a2967" data-target="query-builder.input" data-action="
+            <input id="query-builder-test" name="query-builder-test" value="" autocomplete="off" type="text" role="combobox" spellcheck="false" aria-expanded="false" aria-describedby="validation-75ec8923-f819-4544-9428-792c22185f8d" data-target="query-builder.input" data-action="
           input:query-builder#inputChange
           blur:query-builder#inputBlur
           keydown:query-builder#inputKeydown
@@ -1699,9 +1699,9 @@ Additional navigation options
     
 
       
-        自由上网 edited this page Jan 9, 2025
+        自由上网 edited this page Jan 10, 2025
         &middot;
-        1619 revisions
+        1620 revisions
       
 
     
@@ -1727,7 +1727,7 @@ YouTube频道推荐：
 神韵晚会观众反馈(2024)
 
 
-更新时间： 北京时间2025年1月9日11点00分
+更新时间： 北京时间2025年1月10日20点00分
 节点单用户限速： 1000kb/s
 如果想拥有自己的账号，可以考虑根据教程自己搭建节点，或者购买推荐的付费v2ray账号。
 注意： 禁止使用BT下载电影、滥发垃圾邮件、DDOS攻击！BT下载电影会导致服务器被投诉版权而被封！如果不能看到最新的账号信息，请清理浏览器缓存。
@@ -1759,7 +1759,7 @@ Free Air
 
 
 现在客户端很多都支持从剪贴板导入链接，复制粘贴一键导入链接即可。
-节点（vless）
+节点1（vless）
 （使用vless-reality节点，需支持vless协议的客户端，windows使用最新版v2rayN客户端，安卓手机使用最新版v2rayNG，Mac使用最新版v2rayU，苹果手机使用Streisand或V2BOX或shadowrocket，Linux使用Linux hiddify）
 
 
@@ -1821,6 +1821,68 @@ aff1f4dc
 
 节点（vless）一键导入链接：
 vless://af7f07dc-d726-4b1e-967d-dbb6c594999f@185.22.153.73:25090?encryption=none&amp;flow=xtls-rprx-vision&amp;security=reality&amp;sni=www.yahoo.com&amp;fp=chrome&amp;pbk=JaUyzihmZ70WZdjNflneJnr99G-TXXtqDBeSNAQzHBc&amp;sid=aff1f4dc&amp;type=tcp&amp;headerType=none#dongtaiwang.com%E8%8A%82%E7%82%B91
+节点2（vless）
+（使用vless-reality节点，需支持vless协议的客户端，windows使用最新版v2rayN客户端，安卓手机使用最新版v2rayNG，Mac使用最新版v2rayU，苹果手机使用Streisand或V2BOX或shadowrocket，Linux使用Linux hiddify）
+
+
+
+节点参数
+参数值
+
+
+
+
+Address（地址）
+5.199.143.87
+
+
+Port（端口）
+20528
+
+
+UUID（用户ID）
+f6bcf3c9-d99f-4f5f-bad1-51c16aa9563c
+
+
+flow（流控）
+xtls-rprx-vision
+
+
+encryption（加密方式）
+none
+
+
+network（传输协议）
+tcp
+
+
+headerType（伪装类型）
+none
+
+
+TLS（传输层安全）
+reality
+
+
+SNI (serverName)
+www.yahoo.com
+
+
+Fingerprint （指纹）
+chrome
+
+
+Public key （公钥）
+ueID_PZUuaL5bsu5vjCd8rLmHl3IUb-uj0jRRcSu_x0
+
+
+Shortld
+c9edda54
+
+
+
+节点2（vless）一键导入链接：
+vless://f6bcf3c9-d99f-4f5f-bad1-51c16aa9563c@5.199.143.87:20528?encryption=none&amp;flow=xtls-rprx-vision&amp;security=reality&amp;sni=www.yahoo.com&amp;fp=chrome&amp;pbk=ueID_PZUuaL5bsu5vjCd8rLmHl3IUb-uj0jRRcSu_x0&amp;sid=c9edda54&amp;type=tcp&amp;headerType=none#dongtaiwang.com%E8%8A%82%E7%82%B92
 如果想搭建自己的v2ray节点，参考自建v2ray服务器教程 或一键搭建多个协议节点教程  。也可以考虑付费v2ray账号 ,2020年开始已稳定运行4年。
 Windows电脑系统的网友可以下载最新的自由门和无界，作为备用。操作简单，一键启动。
 无界 21.32版：
