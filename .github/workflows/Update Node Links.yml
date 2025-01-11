@@ -97,16 +97,16 @@ jobs:
       - name: Copy files from myalvinpages to gh-pages root
         run: |
           # 从 main 分支的 myalvinpages 目录复制所有文件到当前目录
-          git checkout main -- myalvinpages/
+          # git checkout main -- myalvinpages/
 
           # 复制文件到根目录，不删除源目录中的文件
-          cp -r myalvinpages/* .
+          # cp -r myalvinpages/* .
 
-          # 如果不需要保留 myalvinpages 目录，可以选择删除
+          # 如果不需要保留 myalvinpages 目录，可以选择删除（这是分支的目录）
           # rm -rf myalvinpages
 
           # 添加这些更改到暂存区
-          git add .
+          # git add .
 
       # Step 5: Commit and push changes
       # - name: Commit and push changes
