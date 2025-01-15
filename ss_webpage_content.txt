@@ -39,7 +39,7 @@
   
 
 
-  {"locale":"en","featureFlags":["alive_longer_retries","bypass_copilot_indexing_quota","copilot_new_references_ui","copilot_beta_features_opt_in","copilot_chat_retry_on_error","copilot_chat_persist_submitted_input","copilot_conversational_ux_history_refs","copilot_editor_upsells","copilot_free_limited_user","copilot_implicit_context","copilot_no_floating_button","copilot_smell_icebreaker_ux","experimentation_azure_variant_endpoint","failbot_handle_non_errors","geojson_azure_maps","ghost_pilot_confidence_truncation_25","ghost_pilot_confidence_truncation_40","hovercard_accessibility","issues_react_remove_placeholders","issues_react_blur_item_picker_on_close","marketing_pages_search_explore_provider","react_keyboard_shortcuts_dialog","remove_child_patch","report_hydro_web_vitals","sample_network_conn_type","site_metered_billing_update","lifecycle_label_name_updates"]}
+  {"locale":"en","featureFlags":["alive_longer_retries","bypass_copilot_indexing_quota","copilot_new_references_ui","copilot_beta_features_opt_in","copilot_chat_retry_on_error","copilot_chat_persist_submitted_input","copilot_conversational_ux_history_refs","copilot_editor_upsells","copilot_free_limited_user","copilot_implicit_context","copilot_no_floating_button","copilot_smell_icebreaker_ux","experimentation_azure_variant_endpoint","failbot_handle_non_errors","geojson_azure_maps","ghost_pilot_confidence_truncation_25","ghost_pilot_confidence_truncation_40","hovercard_accessibility","issues_react_remove_placeholders","issues_react_blur_item_picker_on_close","marketing_pages_search_explore_provider","react_keyboard_shortcuts_dialog","remove_child_patch","sample_network_conn_type","site_metered_billing_update","lifecycle_label_name_updates"]}
 
 
 
@@ -879,7 +879,7 @@
           >
           
             
-            <input id="query-builder-test" name="query-builder-test" value="" autocomplete="off" type="text" role="combobox" spellcheck="false" aria-expanded="false" aria-describedby="validation-00c520a5-6b4d-4c8b-849b-b3bd878fd06b" data-target="query-builder.input" data-action="
+            <input id="query-builder-test" name="query-builder-test" value="" autocomplete="off" type="text" role="combobox" spellcheck="false" aria-expanded="false" aria-describedby="validation-2b7348a5-2d09-48c0-a5e4-32d4da3ae3d0" data-target="query-builder.input" data-action="
           input:query-builder#inputChange
           blur:query-builder#inputBlur
           keydown:query-builder#inputKeydown
@@ -1702,7 +1702,7 @@ Additional navigation options
       
         自由上网 edited this page Jan 15, 2025
         &middot;
-        3623 revisions
+        3626 revisions
       
 
     
@@ -1735,7 +1735,7 @@ YouTube频道推荐：
 神韵艺术家的摇篮—飞天大学剪影
 
 
-更新时间： 北京时间2025年1月12日21点00分
+更新时间： 北京时间2025年1月15日20点00分
 节点单用户限速： 1000kb/s
 如果想拥有自己的账号，可以考虑根据教程自己搭建节点，或者购买推荐的付费ss账号。
 注意： 禁止使用BT下载电影、滥发垃圾邮件、DDOS攻击！BT下载电影会导致服务器被投诉版权而被封！如果不能看到最新的账号信息，请清理浏览器缓存。
@@ -1785,14 +1785,14 @@ SSR节点：
 dongtaiwang5.com
 50055
 dongtaiwang.com
-none
+aes-256-cfb
 auth_chain_a
 tls1.2_ticket_auth
 
 
 
 SSR节点链接：
-ssr://ZG9uZ3RhaXdhbmc1LmNvbTo1MDA1NTphdXRoX2NoYWluX2E6bm9uZTp0bHMxLjJfdGlja2V0X2Zhc3RhdXRoOlpHOXVaM1JoYVhkaGJtY3VZMjl0Lz9vYmZzcGFyYW09JnJlbWFya3M9Wkc5dVozUmhhWGRoYm1jdVkyOXQ1clNiNXAySjU1LTImdW90PTE
+ssr://ZG9uZ3RhaXdhbmc1LmNvbTo1MDA1NTphdXRoX2NoYWluX2E6YWVzLTI1Ni1jZmI6dGxzMS4yX3RpY2tldF9mYXN0YXV0aDpaRzl1WjNSaGFYZGhibWN1WTI5dC8_b2Jmc3BhcmFtPSZyZW1hcmtzPVpHOXVaM1JoYVhkaGJtY3VZMjl0NXJTYjVwMko1NS0yJnVvdD0x
 SS节点：
 
 
@@ -1807,15 +1807,15 @@ SS节点：
 
 
 节点
-185.22.155.228
-23456
+109.104.154.146
+33333
 dongtaiwang.com
 aes-256-gcm
 
 
 
 SS链接：
-ss://YWVzLTI1Ni1nY206ZG9uZ3RhaXdhbmcuY29t@185.22.155.228:23456#dongtaiwang.com%E8%8A%82%E7%82%B9
+ss://YWVzLTI1Ni1nY206ZG9uZ3RhaXdhbmcuY29t@109.104.154.146:33333#dongtaiwang.com%E8%8A%82%E7%82%B9ss
 如果想搭建自己的ss/ssr节点，参考自建ss/ssr服务器教程。或者考虑付费ss账号 或搬瓦工付费ss/ssr账号-Just My Socks。
 Windows电脑系统的网友可以下载最新的自由门和无界，作为备用。操作简单，一键启动。
 无界 21.32版：
